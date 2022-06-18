@@ -1,0 +1,14 @@
+{
+	"num_mip_levels": 4,
+	"padding": 8,
+	"resource_pack_name": "Terrain Generation",
+	"texture_name": "atlas.terrain",
+	"texture_data": {
+		"tg_lava_stone": {
+			"textures": "textures/blocks/lava_stone"
+		},
+		"tg_regolith": {
+			"textures": "textures/blocks/regolith"
+		}
+	}
+}
