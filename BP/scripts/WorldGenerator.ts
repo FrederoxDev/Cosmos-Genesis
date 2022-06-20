@@ -1,21 +1,28 @@
 import { perlin2D } from "./Noise"
 import { BlockLocation, Dimension, Player, PlayerJoinEvent, PlayerLeaveEvent, TickEvent, world } from "mojang-minecraft";
 import { Chunk, ChunkCoord } from "./Chunk";
+import { Planet } from "./Planet";
+import { Biome } from "./Biome";
 
 export class WorldGenerator {
     readonly chunkWidth: number;
     readonly chunkHeight: number;
-    readonly generateDistance: number;
+    generateDistance: number;
+    chunksPerTick: number;
 
     private overworld: Dimension;
     private chunksToGenerate: Chunk[]
     private generatedChunks: ChunkCoord[]
     private players: PlayerData[];
 
-    constructor(chunkWidth: number, chunkHeight: number, generateDistance: number) {
+    public planets: Planet[];
+
+    constructor(chunkWidth: number, chunkHeight: number, generateDistance: number, chunksPerTick: number, planets: Planet[]) {
         this.chunkWidth = chunkWidth;
         this.chunkHeight = chunkHeight;
         this.generateDistance = generateDistance;
+        this.chunksPerTick = chunksPerTick;
+        this.planets = planets;
 
         this.chunksToGenerate = [];
         this.generatedChunks = [];
@@ -28,18 +35,21 @@ export class WorldGenerator {
     }
 
     private Tick(tickEvent: TickEvent): void {
-        while (this.chunksToGenerate.length > 0) {
-            this.chunksToGenerate.sort((a: Chunk, b: Chunk) => {
-                return a.chunkCoord.distance(a.player.GetChunkCoord()) - b.chunkCoord.distance(b.player.GetChunkCoord())
-            })
-            this.GenerateChunks();
+        for (var i = 0; i <= this.chunksPerTick; i++) {
+            if (this.chunksToGenerate.length > 0) {
+                this.chunksToGenerate.sort((a: Chunk, b: Chunk) => {
+                    return a.chunkCoord.distance(a.player.GetChunkCoord()) - b.chunkCoord.distance(b.player.GetChunkCoord())
+                })
+
+                this.GenerateChunks();
+            }
         }
 
         this.players.forEach((playerData: PlayerData) => {
             // Update Surrounding Chunks
             if (playerData.GetChunkCoord().equals(playerData.lastChunkCoord)) return;
-            playerData.UpdateChunkCoord();
 
+            playerData.UpdateChunkCoord();
             this.QueueNewChunks(playerData.lastChunkCoord, playerData)
         })
     }
@@ -67,16 +77,17 @@ export class WorldGenerator {
     }
 
     private GenerateChunks() {
-        if (this.chunksToGenerate.length == 0) return;
-
         var chunk: Chunk = this.chunksToGenerate.shift();
+
+        if (chunk.player.GetChunkCoord().distance(chunk.chunkCoord) > this.generateDistance) return;
+
         chunk.GenerateChunk();
 
         this.generatedChunks.push(chunk.chunkCoord);
     }
 
     private PlayerJoined(joinEvent: PlayerJoinEvent): void {
-        this.players.push(new PlayerData(joinEvent.player));
+        this.players.push(new PlayerData(joinEvent.player, this.chunkWidth));
     }
 
     private PlayerLeft(leaveEvent: PlayerLeaveEvent): void {
@@ -88,31 +99,38 @@ export class WorldGenerator {
      * Returns the block at a given position
     */
     public GetBlock(x: number, y: number, z: number): string {
-        x = Math.floor(x);
-        z = Math.floor(z);
+        if (y == 0) return "minecraft:bedrock";
 
-        const groundHeight = 20;
-        const waterLevel = 25;
+        const temperature = this.Get2DPerlin(x, z, 34214, 0.05)
+        const rainfall = this.Get2DPerlin(x, z, 432, 0.05)
+        const planet = this.planets[0];
+        const biome: Biome = this.GetBiome(planet, temperature, rainfall);
 
-        var temperature = this.Get2DPerlin(x, z, 34214, 0.12)
-        var rainfall = this.Get2DPerlin(x, z, 432, 0.12)
+        const groundHeight = planet.groundHeight;
 
         var octave1 = this.Get2DPerlin(x, z, 0, 0.25)
-        var octave2 = this.Get2DPerlin(x, z, 53552, 0.5) / 2
+        var octave2 = this.Get2DPerlin(x, z, 53552, 1) / 2
         var terrainHeight = groundHeight + Math.floor(groundHeight + (this.chunkHeight - groundHeight) * ((octave1 + octave2) / 2))
 
-        let blockID = "minecraft:air"
+        var blockID = "minecraft:air"
 
+        if (y === terrainHeight) blockID = biome.surface_parameters.top_material;
+        else if (y > terrainHeight - 3 && y < terrainHeight) blockID = biome.surface_parameters.mid_material;
+        else if (y < terrainHeight) blockID = biome.surface_parameters.foundation_material;
 
-        if (y < terrainHeight) blockID = "tg:regolith"
-        if (y == terrainHeight) {
-            if (rainfall < 0 && temperature > 0) blockID = "tg:lava_stone" // Desert
-            else if (rainfall < 0 && temperature < 0) blockID = "tg:regolith" // Tundra
-            else blockID = "tg:regolith"
-        }
-        if (y == 0) blockID = "minecraft:bedrock"
+        return blockID;
+    }
 
-        return blockID
+    public GetBiome(planet: Planet, temperature: number, rainfall: number): Biome {
+        return planet.biomes.sort((a, b) => {
+            var aTemp = Math.max(a.climate.temperature, temperature) - Math.min(a.climate.temperature, temperature);
+            var bTemp = Math.max(b.climate.temperature, temperature) - Math.min(b.climate.temperature, temperature);
+
+            var aRain = Math.max(a.climate.rainfall, rainfall) - Math.min(a.climate.rainfall, rainfall);
+            var bRain = Math.max(b.climate.rainfall, rainfall) - Math.min(b.climate.rainfall, rainfall);
+
+            return (aTemp + aRain) - (bTemp + bRain)
+        })[0]
     }
 
     /**
@@ -129,23 +147,25 @@ export class WorldGenerator {
 export class PlayerData {
     public player: Player;
     public lastChunkCoord: ChunkCoord;
+    public chunkWidth: number;
 
-    constructor(player: Player) {
+    constructor(player: Player, chunkWidth) {
         this.player = player;
+        this.chunkWidth = chunkWidth;
     }
 
     public UpdateChunkCoord(): void {
         var location = this.player.location;
-        var chunkX = Math.floor(location.x / 16);
-        var chunkZ = Math.floor(location.z / 16);
+        var chunkX = Math.floor(location.x / this.chunkWidth);
+        var chunkZ = Math.floor(location.z / this.chunkWidth);
 
         this.lastChunkCoord = new ChunkCoord(chunkX, chunkZ);
     }
 
     public GetChunkCoord(): ChunkCoord {
         var location = this.player.location;
-        var chunkX = Math.floor(location.x / 16);
-        var chunkZ = Math.floor(location.z / 16);
+        var chunkX = Math.floor(location.x / this.chunkWidth);
+        var chunkZ = Math.floor(location.z / this.chunkWidth);
 
         return new ChunkCoord(chunkX, chunkZ);
     }

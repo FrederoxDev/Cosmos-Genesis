@@ -48,7 +48,6 @@ export class Chunk {
      * @todo Implement a quicker fill algorithm
      */
     public GenerateChunk(): void {
-        console.warn(`Generating ${this.chunkCoord.x} ${this.chunkCoord.z}`)
         var data = this.GenerateChunkData();
 
         var xOffset = this.chunkCoord.x * this.worldGenerator.chunkWidth;
@@ -71,7 +70,9 @@ export class Chunk {
                         if (block === "minecraft:air") break;
                         this.overworld.runCommand(`fill ${posX} ${posY} ${posZ} ${posX} ${y - 1} ${posZ} ${block} 0`)
                     }
-                    catch { }
+                    catch {
+
+                    }
 
                     posY = y;
                     block = data[x][y][z]
