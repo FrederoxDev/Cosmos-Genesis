@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        ".vscode": true,
+        ".bridge": true,
+        "builds": true,
+        "deno.json": true,
+        "package.json": true,
+        "package-lock.json": true,
+        "node_modules": true,
+    }
+}

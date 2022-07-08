@@ -1,0 +1,43 @@
+{
+	"type": "minecraftBedrock",
+	"name": "Terrain Generation",
+	"namespace": "bridge",
+	"authors": [
+		"Frederox"
+	],
+	"targetVersion": "1.19.20",
+	"description": "",
+	"experimentalGameplay": {
+		"holidayCreatorFeatures": false,
+		"creationOfCustomBiomes": false,
+		"upcomingCreatorFeatures": false,
+		"enableGameTestFramework": true,
+		"experimentalMolangFeatures": false,
+		"theWildUpdate": false,
+		"educationEdition": false
+	},
+	"packs": {
+		"behaviorPack": "./BP"
+	},
+	"worlds": [
+		"./worlds/*"
+	],
+	"compiler": {
+		"plugins": [
+			"typeScript",
+			"entityIdentifierAlias",
+			"customEntityComponents",
+			"customItemComponents",
+			"customBlockComponents",
+			"customCommands",
+			"moLang",
+			"formatVersionCorrection",
+			[
+				"simpleRewrite",
+				{
+					"packName": "Terrain Generation"
+				}
+			]
+		]
+	}
+}
