@@ -24,7 +24,7 @@ export class WorldGenerator {
         this.chunkHeight = chunkHeight;
         this.isBuildingChunks = false;
         this.chunksToBuild = [];
-        this.simDistance = 3;
+        this.simDistance = 1;
         this.totalChunksBuilt = 0;
 
         this.xIndex = 0;
@@ -81,17 +81,13 @@ export class WorldGenerator {
 
     public GenTick = (tickEvent: TickEvent) => {
         this.DisplayProgressBar();
-
         let finished = true;
 
         for (var i = 0; i < this.chunksToBuild.length; i++) {
             const chunk = this.chunksToBuild[i];
 
-            if (!chunk.HasFinished()) {
-                chunk.GenTick();
-                finished = false;
-                continue;
-            }
+            if (!chunk.HasFinished()) chunk.GenTick();
+            else if (chunk.HasFailed()) chunk.RegenerateChunk();
         }
 
         if (!finished) return;
@@ -118,7 +114,7 @@ export class WorldGenerator {
 
         if (this.zIndex >= this.planetSize) {
             this.isBuildingChunks = false;
-            this.player.teleport(this.ChunkCoordToLocation(this.planetOrigin, 90), world.getDimension("overworld"), 0, 90, false)
+            this.player.teleport(this.ChunkCoordToLocation(this.planetOrigin, 90), world.getDimension("overworld"), 90, 90, false)
             return;
         }
 
@@ -132,7 +128,7 @@ export class WorldGenerator {
             this.planetOrigin.z + this.zIndex
         )
 
-        this.player.teleport(this.ChunkCoordToLocation(coord, 90), world.getDimension("overworld"), 90, 90, false);
+        this.player.teleport(this.ChunkCoordToLocation(coord, this.chunkHeight + 2), world.getDimension("overworld"), 90, 90, false);
     }
 
     public QueueNewChunks() {
@@ -158,20 +154,31 @@ export class WorldGenerator {
 
     public GetBlock(x: number, y: number, z: number): string {
         /* CONSTANT PARAMATERS */
-        const groundHeight = 40;
 
-        /* NOISE */
-        const octave1 = this.Get2DPerlin(x, z, 3, 0.25);
-        console.warn(octave1)
-        const terrainHeight = groundHeight + Math.floor(groundHeight + (this.chunkHeight - groundHeight) * octave1)
-
-        if (y == 0) return "bedrock";
         var blockID = "air";
 
-        if (y == terrainHeight) blockID = "grass";
-        else if (y < terrainHeight) blockID = "stone";
+        // try {
+        // const heightLimit = this.chunkHeight;
+        // const groundHeight = 40;
 
-        return blockID;
+        // /* NOISE */
+        // const octave1 = Math.abs(this.Get2DPerlin(x, z, 3, 0.25));
+        // const terrainHeight = groundHeight + Math.floor(octave1 * (heightLimit - groundHeight))
+
+        // if (y == 0) return "bedrock";
+
+        // if (y == terrainHeight) blockID = "grass";
+        // else if (y < terrainHeight) blockID = "stone";
+
+        // } catch (e){
+        //     console.warn(e);
+        // }
+
+        // return blockID;
+
+        if ((x + z) % 2 == 0) return "dirt"
+
+        return "stone"
     }
 
     public Get2DPerlin(x: number, z: number, offset: number, scale: number): number {

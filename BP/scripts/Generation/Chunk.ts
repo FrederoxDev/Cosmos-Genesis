@@ -6,7 +6,18 @@ export class Chunk {
 	public readonly coord: ChunkCoord;
 	public hasFailed: boolean;
 
+	private data: string[][][];
+	private placed: boolean[][][];
 	private commandsToExecute: string[];
+	private blockID: string;
+
+	private x;
+	private y;
+	private z;
+
+	private distX: number
+	private distY: number
+	private distZ: number
 
 	constructor(worldGenerator: WorldGenerator, coord: ChunkCoord) {
 		this.worldGenerator = worldGenerator;
@@ -14,18 +25,36 @@ export class Chunk {
 		this.hasFailed = false;
 		this.commandsToExecute = [];
 
-		this.GenerateChunk();
+		this.placed = this.Create3DArray(worldGenerator.chunkWidth, worldGenerator.chunkHeight, worldGenerator.chunkWidth, false)
+
+		this.distX = 0;
+		this.distY = 0;
+		this.distZ = 0;
+
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+
+		this.blockID = ""
+
+		this.GenerateChunk()
 	}
 
 	public GenerateChunk() {
-		this.hasFailed = false;
-		const data = this.GenerateChunkData();
-		this.commandsToExecute = this.GenerateCommands(data);
+		this.GenerateChunkData();
+		this.commandsToExecute = this.GenerateCommands();
+	}
 
-		console.warn(this.commandsToExecute.length + " Commands!");
+	//#region Chunk Status 
+	public RegenerateChunk() {
+		this.hasFailed = false;
+		this.commandsToExecute = [];
+
+		this.GenerateChunk()
 	}
 
 	public HasFailed() {
+		if (this.HasFinished()) return false;
 		return this.hasFailed;
 	}
 
@@ -39,42 +68,163 @@ export class Chunk {
 		blockId = world.getDimension("overworld").getBlock(blockLocation).id;
 		return blockId === "minecraft:bedrock";
 	}
+	//#endregion
 
-	private GenerateChunkData(): string[][][] {
+	//#region Chunk Generation
+	private GenerateChunkData() {
+		console.warn("GenerateChunkData()")
 		var xOffset = this.coord.x * this.worldGenerator.chunkWidth;
 		var zOffset = this.coord.z * this.worldGenerator.chunkWidth;
 
 		/* INITIALISE A 3D ARRAY */
-		let data = this.Create3DArray(
-			this.worldGenerator.chunkWidth,
-			this.worldGenerator.chunkHeight,
-			this.worldGenerator.chunkWidth
-		);
-
+		let data = this.Create3DArray(this.worldGenerator.chunkWidth, this.worldGenerator.chunkHeight, this.worldGenerator.chunkWidth, null);
 
 		/* POPULATE DATA */
 		for (var x = 0; x < this.worldGenerator.chunkWidth; x++) {
 			for (var y = 0; y < this.worldGenerator.chunkHeight; y++) {
 				for (var z = 0; z < this.worldGenerator.chunkWidth; z++) {
-					data[x][y][z] = this.worldGenerator.GetBlock(
-						x + xOffset,
-						y,
-						z + zOffset
-					);
+					data[x][y][z] = this.worldGenerator.GetBlock(x + xOffset, y, z + zOffset);
 				}
 			}
 		}
 
+		this.data = data;
+	}
 
-		return data;
+	private GenerateCommands() {
+		console.warn("GenerateCommands()")
+
+		/* Constants */
+		const chunkWidth = this.worldGenerator.chunkWidth;
+		const chunkHeight = this.worldGenerator.chunkHeight;
+		var commands: string[] = []
+
+		for (this.x = 0; this.x < chunkWidth; this.x++) {
+			for (this.y = 0; this.y < chunkHeight; this.y++) {
+				for (this.z = 0; this.z < chunkWidth; this.z++) {
+					// Skip the block if its already included
+					if (this.placed[this.x][this.y][this.z] === true) continue;
+					this.blockID = this.data[this.x][this.y][this.z];
+					if (this.blockID === "air") continue;
+
+					var tryX = true;
+					var tryY = true;
+					var tryZ = false;
+
+					while (tryY) {
+						if (this.CanMoveY()) this.distY++;
+						else tryY = false;
+						
+						if (this.distY + this.y + 1 >= this.worldGenerator.chunkHeight) tryY = false;
+					}
+ 
+					while (tryX) {
+						if (this.CanMoveX()) this.distX++;
+						else tryX = false;
+
+						if (this.x + this.distX + 1 >= this.worldGenerator.chunkWidth) tryX = false;
+					}
+
+					while (tryZ) {
+						if (this.CanMoveZ()) this.distZ++;
+						else tryZ = false;
+
+						if (this.distZ + this.z + 1 >= this.worldGenerator.chunkWidth) tryZ = false;
+					}
+
+					try {
+						this.UpdatePlaced();
+						commands.push(this.GenerateCommand());
+					} catch (e) { console.warn(e) }
+
+					this.distX = 0;
+					this.distY = 0;
+					this.distZ = 0;
+				}
+			}
+		}
+
+		console.warn(`Generated Chunk in ${commands.length} commands!`)
+		return commands
+	}
+
+	private CanMoveX(): boolean {
+		for (var y = this.y; y <= this.y + this.distY; y++) {
+			for (var z = this.z; z <= this.z + this.distZ; z++) {
+				try {
+					if (this.x >= this.worldGenerator.chunkWidth) return false;
+					if (this.placed[this.x + 1][y][z] === true) return false;
+					if (this.data[this.x + 1][y][z] != this.blockID) return false;
+				} catch (e) { 
+					console.warn(e + " X") 
+					console.warn(`${this.x + 1} ${y} ${z}`)
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private CanMoveY(): boolean {
+		for (var x = this.x; x <= this.x + this.distX; x++) {
+			for (var z = this.z; z <= this.z + this.distZ; z++) {
+				try {
+					if (this.y >= this.worldGenerator.chunkHeight) return false;
+					if (this.placed[x][this.y + 1][z] === true) return false;
+					if (this.data[x][this.y + 1][z] != this.blockID) return false;
+				} catch (e) { console.warn(e + " Y") }
+			}
+		}
+
+		return true;
+	}
+
+	private CanMoveZ(): boolean {
+		for (var y = this.y; y <= this.y + this.distY; y++) {
+			for (var x = this.x; x <= this.x + this.distX; x++) {
+				if (this.z >= this.worldGenerator.chunkWidth) return false;
+				if (this.placed[x][y][this.z + 1] === true) return false;
+				if (this.data[x][y][this.z + 1] != this.blockID) return false;
+			}
+		}
+
+		return true;
+	}
+
+	private UpdatePlaced(): void {
+		for (var x = this.x; x <= this.distX + this.x; x++) {
+			for (var y = this.y; y <= this.distY + this.y; y++) {
+				for (var z = this.z; z <= this.distZ + this.z; z++) {
+					try {
+						if (y >= this.worldGenerator.chunkHeight) continue;
+						if (x >= this.worldGenerator.chunkWidth) continue;
+						if (z >= this.worldGenerator.chunkWidth) continue;
+
+						this.placed[x][y][z] = true;
+					} catch (e) {
+						console.warn(e + " Placed!")
+						console.warn(`${x} ${y} ${z}`)
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	private GenerateCommand(): string {
+		var xOffset = this.coord.x * this.worldGenerator.chunkWidth;
+		var zOffset = this.coord.z * this.worldGenerator.chunkWidth;
+		return `fill ${this.x + xOffset} ${this.y} ${this.z + zOffset} ${this.distX + this.x + xOffset} ${this.distY + this.y} ${this.distZ + this.z + zOffset} ${this.blockID} 0 replace`
 	}
 
 	public GenTick() {
 		const cmdsToRun = 256;
 		const overworld = world.getDimension("overworld");
 
-		for (var i = 0; i < Math.min(cmdsToRun, this.commandsToExecute.length); i++) {
-			var command = this.commandsToExecute.shift();
+		var amount = Math.min(this.commandsToExecute.length, cmdsToRun);
+
+		for (var i = 0; i < amount; i++) {
+			const command = this.commandsToExecute.shift();
 			if (command == undefined) continue;
 
 			try {
@@ -87,138 +237,9 @@ export class Chunk {
 		}
 	}
 
-	private GenerateCommands(data: string[][][]): string[] {
-		var placed = this.Create3DArray(
-			this.worldGenerator.chunkWidth + 1,
-			this.worldGenerator.chunkHeight + 1,
-			this.worldGenerator.chunkWidth + 1,
-			false
-		);
-		var commands: string[] = [];
+	//#endregion
 
-		var xOffset = this.coord.x * this.worldGenerator.chunkWidth;
-		var zOffset = this.coord.z * this.worldGenerator.chunkWidth;
-
-
-			for (var localX = 0; localX < this.worldGenerator.chunkWidth; localX++) {
-				for (var localY = 1; localY < this.worldGenerator.chunkHeight; localY++) {
-					for (
-						var localZ = 0;
-						localZ < this.worldGenerator.chunkWidth;
-						localZ++
-					) {
-						if (placed[localX][localY][localZ] === true) continue;
-
-						var blockID = data[localX][localY][localZ];
-						if (blockID === "air") continue;
-
-						// Try and expand the region as large as possible
-						var tryMoveX = false;
-						var tryMoveY = true;
-						var tryMoveZ = false;
- 
-						var distX = 0;
-						var distY = 0;
-						var distZ = 0;
-
-						while (tryMoveX || tryMoveY || tryMoveZ) {
-							if (tryMoveY) {
-								tryMoveY = this.CanMoveY(localX, localX + distX, localY + distY + 1, localZ, localZ + distZ, data, placed, blockID);
-
-								if (tryMoveY) distY++;
-
-								if (localY + distY >= this.worldGenerator.chunkHeight)
-									tryMoveY = false;
-							}
-
-							if (tryMoveX) {
-								
-								tryMoveX = this.CanMoveX(localX + distX + 1, localY, localY + distY, localZ, localZ + distZ, data, placed, blockID);
-								if (tryMoveX) distX++;
-
-								if (localX + distX >= this.worldGenerator.chunkWidth)
-									tryMoveX = false;
-							}
-
-							if (tryMoveZ) {
-								tryMoveZ = this.CanMoveZ(localX, localX + distX, localY, localY + distY, localZ + distZ + 1, data, placed, blockID);
-
-								if (tryMoveZ) distZ++;
-
-								if (localZ + distX >= this.worldGenerator.chunkWidth)
-									tryMoveZ = false;
-							}
-						}
-
-						var posX1 = xOffset + localX;
-						var posX2 = xOffset + localX + distX + 1;
-
-						var posY1 = localY;
-						var posY2 = localY + distY;
-
-						var posZ1 = zOffset + localZ;
-						var posZ2 = zOffset + localZ + distZ + 1;
-
-						commands.push(
-							`fill ${posX1} ${posY1} ${posZ1} ${posX2} ${posY2} ${posZ2} ${blockID} 0`
-						);
-
-						for (var placedY = localY; placedY <= localY + distY; placedY++) {
-							for (var placedX = localX; placedX <= localX + distX; placedX++) {
-								for (var placedZ = localZ; placedZ <= localZ + distZ; placedZ++) {
-									placed[placedX][placedY][placedZ] = true;
-								}
-							}
-						}
-					}
-				}
-			}
-
-		commands.push(`fill ${xOffset} 0 ${zOffset} ${xOffset + 16} 0 ${zOffset + 16} bedrock 0`)
-
-		return commands;
-	}
-
-	private CanMoveX(x, y1, y2, z1, z2, data, placed, blockID): boolean {
-		for (var localY = y1; localY <= y2; localY++) {
-			for (var localZ = z1; localZ <= z2; localZ++) {
-				if (data[x][localY][localZ] != blockID) return false;
-				if (placed[x][localY][localZ] === true) return false;
-			}
-		}
-
-		return true;
-	}
-
-	private CanMoveY(x1, x2, y, z1, z2, data, placed, blockID): boolean {
-			for (var localX = x1; localX <= x2; localX++) {
-				for (var localZ = z1; localZ <= z2; localZ++) {
-					if (data[localX][y][localZ] != blockID) return false;
-					if (placed[localX][y][localZ] === true) return false;
-				}
-			}
-
-		return true;
-	}
-
-	private CanMoveZ(x1, x2, y1, y2, z, data, placed, blockID): boolean {
-			for (var localX = x1; localX < x2; localX++) {
-				for (var localY = y1; localY < y2; localY++) {
-					if (data[localX][localY][z] != blockID) return false;
-					if (placed[localX][localY][z] === true) return false;
-				}
-			}
-
-
-		return true;
-	}
-
-	private Create3DArray(
-		xSize: number,
-		ySize: number,
-		zSize: number,
-		defaultVal: any = null
-	) {
+	public Create3DArray(xSize, ySize, zSize, defaultValue: any): any[][][] {
 		let data = new Array(xSize);
 
 		for (var i = 0; i < data.length; i++) {
@@ -228,7 +249,7 @@ export class Chunk {
 				data[i][j] = new Array(zSize);
 
 				for (var k = 0; k < data[i][j].length; k++) {
-					data[i][j][k] = defaultVal;
+					data[i][j][k] = defaultValue;
 				}
 			}
 		}

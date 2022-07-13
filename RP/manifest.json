@@ -1,0 +1,42 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			""
+		],
+		"generated_with": {
+			"bridge": [
+				"2.2.13"
+			],
+			"dash": [
+				"0.8.18"
+			]
+		}
+	},
+	"header": {
+		"name": "pack.name",
+		"description": "pack.description",
+		"min_engine_version": [
+			1,
+			19,
+			20
+		],
+		"uuid": "accd7941-1dd5-44ca-869f-ac5193e7c7a3",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "resources",
+			"uuid": "62836a05-2da3-4442-b033-a7cce9ef04eb",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	]
+}
