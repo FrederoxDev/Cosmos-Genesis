@@ -2,6 +2,7 @@ import { lang } from "./Languages";
 
 export const en: lang = {
     name: "English",
+    shortName: "en",
     flag: "textures/flags/en",
     
     general: {

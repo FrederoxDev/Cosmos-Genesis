@@ -1,5 +1,6 @@
 import { Player, Location, world, TickEvent } from "mojang-minecraft";
-import { Chunk, ChunkCoord } from "./Chunk";
+import { Chunk } from "./Chunk";
+import { ChunkCoord } from "./ChunkCoord";
 import { SimplexNoise } from "./SimplexNoise"
 
 export class WorldGenerator {
@@ -19,18 +20,20 @@ export class WorldGenerator {
 
     private SimplexNoise: SimplexNoise;
 
-    constructor(chunkWidth: number, chunkHeight: number, seed: string) {
+    constructor(chunkWidth: number, chunkHeight: number) {
         this.chunkWidth = chunkWidth;
         this.chunkHeight = chunkHeight;
         this.isBuildingChunks = false;
         this.chunksToBuild = [];
-        this.simDistance = 1;
+        this.simDistance = 3;
         this.totalChunksBuilt = 0;
 
         this.xIndex = 0;
         this.zIndex = 0;
 
-        this.SimplexNoise = new SimplexNoise(seed)
+        this.SimplexNoise = new SimplexNoise(
+            <string> world.getDynamicProperty("seed")
+        )
     }
 
     public LocationToChunkCoord(location: Location): ChunkCoord {
@@ -86,8 +89,10 @@ export class WorldGenerator {
         for (var i = 0; i < this.chunksToBuild.length; i++) {
             const chunk = this.chunksToBuild[i];
 
-            if (!chunk.HasFinished()) chunk.GenTick();
-            else if (chunk.HasFailed()) chunk.RegenerateChunk();
+            if (!chunk.HasFinished()) {
+                chunk.GenTick();
+                finished = false;
+            }
         }
 
         if (!finished) return;
@@ -153,35 +158,17 @@ export class WorldGenerator {
     }
 
     public GetBlock(x: number, y: number, z: number): string {
-        /* CONSTANT PARAMATERS */
+        const octave1 = this.Get2DNoise(x, z, 0, 0.25);
+        const terrainHeight = 30 + Math.floor(octave1 * 20)
+        var blockID = "air"
 
-        var blockID = "air";
+        if (y === terrainHeight) blockID = "grass"
+        else if (y < terrainHeight) blockID = "stone"
 
-        // try {
-        // const heightLimit = this.chunkHeight;
-        // const groundHeight = 40;
-
-        // /* NOISE */
-        // const octave1 = Math.abs(this.Get2DPerlin(x, z, 3, 0.25));
-        // const terrainHeight = groundHeight + Math.floor(octave1 * (heightLimit - groundHeight))
-
-        // if (y == 0) return "bedrock";
-
-        // if (y == terrainHeight) blockID = "grass";
-        // else if (y < terrainHeight) blockID = "stone";
-
-        // } catch (e){
-        //     console.warn(e);
-        // }
-
-        // return blockID;
-
-        if ((x + z) % 2 == 0) return "dirt"
-
-        return "stone"
+        return blockID;
     }
 
-    public Get2DPerlin(x: number, z: number, offset: number, scale: number): number {
+    public Get2DNoise(x: number, z: number, offset: number, scale: number): number {
         return this.SimplexNoise.noise2D(
             (x + 0.1) / 16 * scale + offset,
             (z + 0.1) / 16 * scale + offset
