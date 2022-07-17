@@ -48,7 +48,14 @@ export class Chunk {
 
 	public HasFinished() {
 		if (this.commandsToExecute.length > 0) return false;
-		else return true;
+
+		const x = this.worldGenerator.chunkWidth * this.coord.x;
+		const z = this.worldGenerator.chunkWidth * this.coord.z;
+
+		if (world.getDimension("overworld").getBlock(new BlockLocation(x, 0, z)).id === "minecraft:bedrock")
+			return true;
+
+		else return false;
 	}
 
 	private GenerateChunkData() {
@@ -73,7 +80,7 @@ export class Chunk {
 		const chunkHeight = this.worldGenerator.chunkHeight;
 
 		for (var x = 0; x < chunkWidth; x++) {
-			for (var y = 0; y < chunkHeight; y++) {
+			for (var y = 1; y < chunkHeight; y++) {
 				for (var z = 0; z < chunkWidth; z++) {
 					this.x = x;
 					this.y = y;
@@ -83,6 +90,12 @@ export class Chunk {
 					// So skip the block so it is not placed twice
 					if (this.placed[this.x][this.y][this.z] === true) continue;
 					this.blockID = this.data[this.x][this.y][this.z];
+
+					// Do not fill air
+					if (this.blockID === "air") {
+						this.placed[this.x][this.y][this.z] = true;
+						continue
+					}
 
 					// Move in the order X, Z, Y 
 					while (this.CanMoveX()) this.distX++;
@@ -98,6 +111,11 @@ export class Chunk {
 				}
 			}
 		}
+
+		const xOffset = this.worldGenerator.chunkWidth * this.coord.x;
+		const zOffset = this.worldGenerator.chunkWidth * this.coord.z;
+
+		this.commandsToExecute.push(`fill ${xOffset} 0 ${zOffset} ${xOffset + 15} 0 ${zOffset + 15} bedrock 0 replace`)
 
 		console.warn(this.commandsToExecute.length + " Commands!")
 	}
@@ -116,7 +134,7 @@ export class Chunk {
 		var xOffset = this.coord.x * this.worldGenerator.chunkWidth;
 		var zOffset = this.coord.z * this.worldGenerator.chunkWidth;
 
-		return `fill ${this.x + xOffset} ${this.y} ${this.z + zOffset} ${this.x + this.distX + xOffset} ${this.y + this.distY} ${this.z + this.distZ + zOffset} ${this.blockID} 0`
+		return `fill ${this.x + xOffset} ${this.y} ${this.z + zOffset} ${this.x + this.distX + xOffset} ${this.y + this.distY} ${this.z + this.distZ + zOffset} ${this.blockID} 0 replace`
 	}
 
 	public CanMoveX(): boolean {
@@ -134,7 +152,7 @@ export class Chunk {
 
 	public CanMoveY(): boolean {
 		if (this.y + this.distY + 1 >= this.worldGenerator.chunkHeight) return false;
-		
+
 		for (var x = this.x; x <= this.x + this.distX; x++) {
 			for (var z = this.z; z <= this.z + this.distZ; z++) {
 				if (this.placed[x][this.y + this.distY + 1][z] === true) return false;
@@ -173,7 +191,8 @@ export class Chunk {
 			}
 
 			catch (e) {
-				this.hasFailed = true;
+				this.commandsToExecute.push(command)
+				console.warn(command)
 			}
 		}
 	}
