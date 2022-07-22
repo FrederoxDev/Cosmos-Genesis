@@ -159,8 +159,6 @@ export class Chunk {
 		const zOffset = this.worldGenerator.chunkWidth * this.coord.z;
 
 		this.commandsToExecute.push(`fill ${xOffset} 0 ${zOffset} ${xOffset + 15} 0 ${zOffset + 15} bedrock 0 replace`)
-
-		console.warn(this.commandsToExecute.length + " Commands!")
 	}
 
 	private UpdatePlaced(): void {

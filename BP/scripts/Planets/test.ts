@@ -30,34 +30,3 @@ export const test: Planet = {
         }
     ]
 }
-
-
-export const test2: Planet = {
-    identifier: "test",
-    biomes: [
-        {
-            identifier: "snow",
-            climate: {
-                rainfall: -1,
-                temperature: -1
-            },
-            surface_parameters: {
-                top_material: "dirt",
-                mid_material: "dirt",
-                foundation_material: "stone"
-            }
-        },
-        {
-            identifier: "plains",
-            climate: {
-                rainfall: 1,
-                temperature: 1
-            },
-            surface_parameters: {
-                top_material: "grass",
-                mid_material: "dirt",
-                foundation_material: "stone"
-            }
-        }
-    ]
-}

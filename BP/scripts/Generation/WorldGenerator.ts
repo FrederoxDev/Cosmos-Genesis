@@ -1,4 +1,4 @@
-import { Player, Location, world, TickEvent } from "mojang-minecraft";
+import { Player, Location, world, TickEvent, EffectType, MinecraftEffectTypes } from "mojang-minecraft";
 import { Biome } from "./Biome";
 import { Chunk } from "./Chunk";
 import { ChunkCoord } from "./ChunkCoord";
@@ -70,6 +70,8 @@ export class WorldGenerator {
         this.totalChunksBuilt = 0;
         this.QueueNewChunks();
 
+        this.player.addEffect(MinecraftEffectTypes.blindness, 1000000000, 255, false);
+
         world.events.tick.subscribe(this.GenTick)
 
         // Await for all chunks to be generated 
@@ -80,6 +82,8 @@ export class WorldGenerator {
 
         // Unsubscribe again from the tick event
         world.events.tick.unsubscribe(this.GenTick)
+
+        this.player.runCommand("effect @s clear")
 
         // Print timing information
         const endTime = new Date().getTime();
@@ -110,8 +114,19 @@ export class WorldGenerator {
     public DisplayProgressBar() {
         var total = this.planetSize * this.planetSize;
         var percentage = (this.totalChunksBuilt / total) * 100;
-        this.player.runCommand(`title @s title ${Math.floor(percentage)}%`)
-        this.player.runCommand(`title @s subtitle ${this.totalChunksBuilt} / ${total} Chunks Generated`)
+        
+        var barLength = 16;
+        var bar = "";
+
+        var complete = Math.floor(barLength * (this.totalChunksBuilt / total))
+        
+        bar += "█".repeat(complete)
+        bar += "▒".repeat(barLength - complete)
+
+        this.player.runCommand(`title @s title ${this.totalChunksBuilt} / ${total}`)
+
+        this.player.runCommand(`title @s subtitle ${Math.round(percentage)}% [${bar}]`)
+
     }
 
     public StepToNextChunk() {

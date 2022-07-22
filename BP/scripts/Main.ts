@@ -2,7 +2,7 @@ import { WorldGenerator } from "./Generation/WorldGenerator";
 import { DynamicPropertiesDefinition, Player, world } from "mojang-minecraft"
 import { SetupMenu } from "./Menu/SetupMenu";
 import { GetLangFromShort, lang } from "./Localization/Languages";
-import { test, test2 } from "./Planets/test";
+import { test } from "./Planets/test";
 
 console.warn("§6Cosmos Genesis Loaded! " + new Date().toTimeString())
 
@@ -46,5 +46,5 @@ world.events.beforeChat.subscribe(async (beforeChat) => {
     const worldGenerator = new WorldGenerator(16, 60);
     const playerChunk = worldGenerator.LocationToChunkCoord(beforeChat.sender.location);
     
-    worldGenerator.GeneratePlanet(beforeChat.sender, 9, playerChunk, test2);
+    worldGenerator.GeneratePlanet(beforeChat.sender, 9, playerChunk, test);
 })
