@@ -1,7 +1,10 @@
 import { en } from "./en"
+import { de } from "./de"
 import { ru } from "./ru"
-
-export const languages = [en, ru]
+import { fr } from "./fr"
+import { it } from "./it"
+ 
+export const languages = [en, de, ru, fr, it]
 
 export function GetLangFromIndex(index: number) {
     return languages[index];

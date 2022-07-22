@@ -1,6 +1,7 @@
 import { WorldGenerator } from "./WorldGenerator";
 import { world, Location, BlockLocation, BlockType, BlockPermutation, MinecraftBlockTypes } from "mojang-minecraft";
 import { ChunkCoord } from "./ChunkCoord";
+import { Biome } from "./Biome";
 
 export class Chunk {
 	public readonly worldGenerator: WorldGenerator;
@@ -19,6 +20,9 @@ export class Chunk {
 	private distX: number
 	private distY: number
 	private distZ: number
+
+	private heightMap: number[][];
+	private biomeMap: Biome[][];
 
 	constructor(worldGenerator: WorldGenerator, coord: ChunkCoord) {
 		this.worldGenerator = worldGenerator;
@@ -64,15 +68,54 @@ export class Chunk {
 
 		/* INITIALISE A 3D ARRAY */
 		this.data = this.Create3DArray(this.worldGenerator.chunkWidth, this.worldGenerator.chunkHeight, this.worldGenerator.chunkWidth, null);
+		this.CreateHeightMap();
+		this.CreateBiomeMap();
 
 		/* POPULATE DATA */
 		for (var x = 0; x < this.worldGenerator.chunkWidth; x++) {
 			for (var y = 0; y < this.worldGenerator.chunkHeight; y++) {
 				for (var z = 0; z < this.worldGenerator.chunkWidth; z++) {
-					this.data[x][y][z] = this.worldGenerator.GetBlock(x + xOffset, y, z + zOffset);
+					this.data[x][y][z] = this.worldGenerator.GetBlock(this.heightMap[x][z], this.biomeMap[x][z], y);
 				}
 			}
 		}
+	}
+
+	private CreateHeightMap() {
+		let data = new Array(this.worldGenerator.chunkWidth);
+
+		const offsetX = this.worldGenerator.chunkWidth * this.coord.x;
+		const offsetZ = this.worldGenerator.chunkWidth * this.coord.z;
+
+		for (var x = 0; x < data.length; x++) {
+			data[x] = new Array(this.worldGenerator.chunkWidth);
+
+			for (var z = 0; z < data[x].length; z++) {
+				data[x][z] = this.worldGenerator.Get2DNoise(x + offsetX, z + offsetZ, 0, 0.25);
+			}
+		}
+
+		this.heightMap = data;
+	}
+
+	private CreateBiomeMap() {
+		let data = new Array(this.worldGenerator.chunkWidth);
+
+		const offsetX = this.worldGenerator.chunkWidth * this.coord.x;
+		const offsetZ = this.worldGenerator.chunkWidth * this.coord.z;
+
+		for (var x = 0; x < data.length; x++) {
+			data[x] = new Array(this.worldGenerator.chunkWidth);
+
+			for (var z = 0; z < data[x].length; z++) {
+				const temperature = this.worldGenerator.Get2DNoise(x + offsetX, z + offsetZ, 34214, 0.1)
+        		const rainfall = this.worldGenerator.Get2DNoise(x + offsetX, z + offsetZ, 432, 0.1)
+
+				data[x][z] = this.worldGenerator.GetBiome(temperature, rainfall)
+			}
+		}
+
+		this.biomeMap = data;
 	}
 
 	private GenerateCommands(): void {
@@ -192,7 +235,6 @@ export class Chunk {
 
 			catch (e) {
 				this.commandsToExecute.push(command)
-				console.warn(command)
 			}
 		}
 	}

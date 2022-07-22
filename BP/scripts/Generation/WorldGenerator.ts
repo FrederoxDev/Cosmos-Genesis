@@ -1,6 +1,8 @@
 import { Player, Location, world, TickEvent } from "mojang-minecraft";
+import { Biome } from "./Biome";
 import { Chunk } from "./Chunk";
 import { ChunkCoord } from "./ChunkCoord";
+import { Planet } from "./Planet";
 import { SimplexNoise } from "./SimplexNoise"
 
 export class WorldGenerator {
@@ -17,6 +19,8 @@ export class WorldGenerator {
     private xIndex;
     private zIndex;
     private totalChunksBuilt: number;
+
+    private planet: Planet;
 
     private SimplexNoise: SimplexNoise;
 
@@ -47,10 +51,11 @@ export class WorldGenerator {
         return new Location(chunkCoord.x * this.chunkWidth, y, chunkCoord.z * this.chunkWidth);
     }
 
-    public async GeneratePlanet(player: Player, size: number, origin: ChunkCoord) {
+    public async GeneratePlanet(player: Player, size: number, origin: ChunkCoord, planet: Planet) {
         this.player = player;
         this.planetSize = size;
         this.planetOrigin = origin;
+        this.planet = planet;
 
         this.StartTerrainGeneration();
     }
@@ -157,13 +162,13 @@ export class WorldGenerator {
         }
     }
 
-    public GetBlock(x: number, y: number, z: number): string {
-        const octave1 = this.Get2DNoise(x, z, 0, 0.25);
+    public GetBlock(octave1: number, biome: Biome, y: number): string {
         const terrainHeight = 30 + Math.floor(octave1 * 20)
         var blockID = "air"
-
-        if (y === terrainHeight) blockID = "grass"
-        else if (y < terrainHeight) blockID = "stone"
+        
+        if (y === terrainHeight) blockID = biome.surface_parameters.top_material;
+        else if (y > terrainHeight - 3 && y < terrainHeight) blockID = biome.surface_parameters.mid_material;
+        else if (y < terrainHeight) blockID = biome.surface_parameters.foundation_material;
 
         return blockID;
     }
@@ -173,5 +178,17 @@ export class WorldGenerator {
             (x + 0.1) / 16 * scale + offset,
             (z + 0.1) / 16 * scale + offset
         )
+    }
+
+    public GetBiome(temperature: number, rainfall: number): Biome {
+        return this.planet.biomes.sort((a, b) => {
+            var aTemp = Math.max(a.climate.temperature, temperature) - Math.min(a.climate.temperature, temperature);
+            var bTemp = Math.max(b.climate.temperature, temperature) - Math.min(b.climate.temperature, temperature);
+
+            var aRain = Math.max(a.climate.rainfall, rainfall) - Math.min(a.climate.rainfall, rainfall);
+            var bRain = Math.max(b.climate.rainfall, rainfall) - Math.min(b.climate.rainfall, rainfall);
+
+            return (aTemp + aRain) - (bTemp + bRain)
+        })[0]
     }
 }

@@ -1,2 +1,3 @@
 pack.name=Terrain Generation RP
 pack.description=
+tile.bridge:test_stone.name=Test Stone

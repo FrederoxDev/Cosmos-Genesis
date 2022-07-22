@@ -3,5 +3,9 @@
 		1,
 		1,
 		0
-	]
+	],
+	"bridge:test_stone": {
+		"textures": "bridge_test_stone",
+		"sound": "stone"
+	}
 }

@@ -3,5 +3,9 @@
 	"padding": 8,
 	"resource_pack_name": "Terrain Generation",
 	"texture_name": "atlas.terrain",
-	"texture_data": {}
+	"texture_data": {
+		"bridge_test_stone": {
+			"textures": "textures/blocks/test_stone"
+		}
+	}
 }
