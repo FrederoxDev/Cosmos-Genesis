@@ -24,6 +24,10 @@ export class Chunk {
 	private heightMap: number[][];
 	private biomeMap: Biome[][];
 
+	private maxVerifyAttemps: number;
+	private verifyAttemps: number;
+	private hasFailedVerification: boolean;
+
 	constructor(worldGenerator: WorldGenerator, coord: ChunkCoord) {
 		this.worldGenerator = worldGenerator;
 		this.coord = coord;
@@ -42,6 +46,10 @@ export class Chunk {
 
 		this.blockID = ""
 
+		this.maxVerifyAttemps = 30;
+		this.verifyAttemps = 0;
+		this.hasFailedVerification = false;
+
 		this.GenerateChunk()
 	}
 
@@ -52,9 +60,19 @@ export class Chunk {
 
 	public HasFinished() {
 		if (this.commandsToExecute.length > 0) return false;
+		if (this.hasFailedVerification) return true;
 
 		const x = this.worldGenerator.chunkWidth * this.coord.x;
 		const z = this.worldGenerator.chunkWidth * this.coord.z;
+
+		if (this.verifyAttemps > this.maxVerifyAttemps) {
+			console.warn(`${this.coord.x} ${this.coord.z} Failed!`)
+			this.worldGenerator.ChunkFailed(this);
+			this.hasFailedVerification = true;
+			return true;
+		}
+
+		this.verifyAttemps++;
 
 		if (world.getDimension("overworld").getBlock(new BlockLocation(x, 0, z)).id === "minecraft:bedrock")
 			return true;
@@ -91,7 +109,10 @@ export class Chunk {
 			data[x] = new Array(this.worldGenerator.chunkWidth);
 
 			for (var z = 0; z < data[x].length; z++) {
-				data[x][z] = this.worldGenerator.Get2DNoise(x + offsetX, z + offsetZ, 0, 0.25);
+				const octave1 = this.worldGenerator.Get2DNoise(x + offsetX, z + offsetZ, 0, 0.25);
+				const octave2 = this.worldGenerator.Get2DNoise(x + offsetX, z + offsetZ, 500, 0.5) / 2;
+
+				data[x][z] = (octave1 + octave2) / 2
 			}
 		}
 

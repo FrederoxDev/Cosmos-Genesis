@@ -8,7 +8,7 @@
 	"targetVersion": "1.19.20",
 	"description": "",
 	"experimentalGameplay": {
-		"holidayCreatorFeatures": false,
+		"holidayCreatorFeatures": true,
 		"creationOfCustomBiomes": false,
 		"upcomingCreatorFeatures": false,
 		"enableGameTestFramework": true,

@@ -6,6 +6,12 @@
 	"texture_data": {
 		"bridge_test_stone": {
 			"textures": "textures/blocks/test_stone"
+		},
+		"bridge_thruster": {
+			"textures": "textures/blocks/thruster"
+		},
+		"bridge_rocket_controller": {
+			"textures": "textures/blocks/rocket_controller"
 		}
 	}
 }

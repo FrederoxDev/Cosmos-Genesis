@@ -1,0 +1,24 @@
+{
+	"format_version": "1.16.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "bridge:rocket",
+			"is_summonable": true
+		},
+		"component_groups": {},
+		"components": {
+			"minecraft:rideable": {
+				"seats": [
+					{
+						"position": [
+							0,
+							2.5,
+							0
+						]
+					}
+				]
+			}
+		},
+		"events": {}
+	}
+}

@@ -6,4 +6,8 @@ export class ChunkCoord {
 		this.x = x;
 		this.z = z;
 	}
+
+	toString(): string {
+		return `(${this.x}, ${this.z})`
+	}
 }

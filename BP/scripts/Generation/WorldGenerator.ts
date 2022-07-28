@@ -15,6 +15,7 @@ export class WorldGenerator {
     private player: Player;
     private planetSize: number;
     private planetOrigin: ChunkCoord;
+    private failedChunks: Chunk[];
 
     private xIndex;
     private zIndex;
@@ -29,6 +30,7 @@ export class WorldGenerator {
         this.chunkHeight = chunkHeight;
         this.isBuildingChunks = false;
         this.chunksToBuild = [];
+        this.failedChunks = [];
         this.simDistance = 3;
         this.totalChunksBuilt = 0;
 
@@ -70,7 +72,7 @@ export class WorldGenerator {
         this.totalChunksBuilt = 0;
         this.QueueNewChunks();
 
-        this.player.addEffect(MinecraftEffectTypes.blindness, 1000000000, 255, false);
+        // this.player.addEffect(MinecraftEffectTypes.blindness, 1000000000, 255, false);
 
         world.events.tick.subscribe(this.GenTick)
 
@@ -83,7 +85,7 @@ export class WorldGenerator {
         // Unsubscribe again from the tick event
         world.events.tick.unsubscribe(this.GenTick)
 
-        this.player.runCommand("effect @s clear")
+        // this.player.runCommand("effect @s clear")
 
         // Print timing information
         const endTime = new Date().getTime();
@@ -205,5 +207,9 @@ export class WorldGenerator {
 
             return (aTemp + aRain) - (bTemp + bRain)
         })[0]
+    }
+
+    public ChunkFailed(chunk: Chunk) {
+        this.failedChunks.push(chunk);
     }
 }

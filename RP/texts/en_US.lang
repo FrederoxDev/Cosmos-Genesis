@@ -1,3 +1,15 @@
 pack.name=Terrain Generation RP
 pack.description=
 tile.bridge:test_stone.name=Test Stone
+tile.bridge:thruster.name=Thruster
+tile.bridge:rocket_controller.name=Rocket Controller
+item.spawn_egg.entity.bridge:hologram.name=Spawn Hologram
+entity.bridge:hologram.name=Hologram
+item.spawn_egg.entity.bridge:hologram_thruster.name=Spawn Hologram Thruster
+entity.bridge:hologram_thruster.name=Hologram Thruster
+item.spawn_egg.entity.bridge:hologram_iron_block.name=Spawn Hologram Iron Block
+entity.bridge:hologram_iron_block.name=Hologram Iron Block
+item.spawn_egg.entity.bridge:hologram_stained_glass.name=Spawn Hologram Stained Glass
+entity.bridge:hologram_stained_glass.name=Hologram Stained Glass
+item.spawn_egg.entity.bridge:rocket.name=Spawn Rocket
+entity.bridge:rocket.name=Rocket
