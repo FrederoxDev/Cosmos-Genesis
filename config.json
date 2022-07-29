@@ -1,6 +1,6 @@
 {
 	"type": "minecraftBedrock",
-	"name": "Terrain Generation",
+	"name": "Cosmos Genesis",
 	"namespace": "bridge",
 	"authors": [
 		"Frederox"
@@ -36,7 +36,7 @@
 			[
 				"simpleRewrite",
 				{
-					"packName": "Terrain Generation"
+					"packName": "Cosmos Genesis"
 				}
 			]
 		]

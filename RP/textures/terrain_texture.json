@@ -12,6 +12,9 @@
 		},
 		"bridge_rocket_controller": {
 			"textures": "textures/blocks/rocket_controller"
+		},
+		"bridge_rocket_plating": {
+			"textures": "textures/blocks/metal_sheet"
 		}
 	}
 }

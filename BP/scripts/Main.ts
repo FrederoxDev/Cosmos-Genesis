@@ -1,5 +1,5 @@
 import { WorldGenerator } from "./Generation/WorldGenerator";
-import { DynamicPropertiesDefinition, Player, world, MinecraftBlockTypes } from "mojang-minecraft"
+import { DynamicPropertiesDefinition, Player, world, MinecraftBlockTypes, Vector } from "mojang-minecraft"
 import { SetupMenu } from "./Menu/SetupMenu";
 import { GetLangFromShort, lang } from "./Localization/Languages";
 import { test } from "./Planets/test";
@@ -65,10 +65,10 @@ world.events.beforeItemUseOn.subscribe((e) => {
 
     if (overworld.getBlock(location).id != "bridge:rocket_controller") return;
 
-    //@ts-ignore
+    //@ts-ignore Bridge doesnt have property value
     const rotation: 2 | 3 | 4 | 5 = overworld.getBlock(location).permutation.getProperty("bridge:block_rotation").value;
-    console.warn(rotation)
 
+    console.warn(rotation)
 
     const rocketStructure = [
         {
@@ -159,21 +159,10 @@ world.events.beforeItemUseOn.subscribe((e) => {
     rocketStructure.forEach((block) => {
         var offsetLocation;
 
-        if (rotation == 2) {
-            offsetLocation = location.offset(block.offset[0], block.offset[1], -block.offset[2])
-        }
-
-        else if (rotation == 3) {
-            offsetLocation = location.offset(block.offset[0], block.offset[1], block.offset[2])
-        }
-
-        else if (rotation == 4) {
-            offsetLocation = location.offset(-block.offset[2], block.offset[1], block.offset[0])
-        }
-
-        else if (rotation == 5) {
-            offsetLocation = location.offset(block.offset[2], block.offset[1], block.offset[0])
-        }
+        if (rotation == 2) offsetLocation = location.offset(block.offset[0], block.offset[1], -block.offset[2])
+        else if (rotation == 3) offsetLocation = location.offset(block.offset[0], block.offset[1], block.offset[2])
+        else if (rotation == 4) offsetLocation = location.offset(-block.offset[2], block.offset[1], block.offset[0])
+        else if (rotation == 5) offsetLocation = location.offset(block.offset[2], block.offset[1], block.offset[0])
 
         if (overworld.getBlock(offsetLocation).id != block.id) {
             overworld.spawnEntity(`bridge:hologram_${block.id.split(":")[1]}`, offsetLocation)
@@ -201,12 +190,25 @@ world.events.beforeItemUseOn.subscribe((e) => {
         e.source.runCommand(`tellraw @s {"rawtext":[{"text":"Rocket Constructed!"}]}`);
 
         rocketStructure.forEach((block) => {
-            var offsetLocation = location.offset(block.offset[0], block.offset[1], block.offset[2])
+            var offsetLocation;
+
+            if (rotation == 2) offsetLocation = location.offset(block.offset[0], block.offset[1], -block.offset[2])
+            else if (rotation == 3) offsetLocation = location.offset(block.offset[0], block.offset[1], block.offset[2])
+            else if (rotation == 4) offsetLocation = location.offset(-block.offset[2], block.offset[1], block.offset[0])
+            else if (rotation == 5) offsetLocation = location.offset(block.offset[2], block.offset[1], block.offset[0])
 
             overworld.getBlock(offsetLocation).setType(MinecraftBlockTypes.air)
         })
 
         overworld.getBlock(location).setType(MinecraftBlockTypes.air)
-        overworld.spawnEntity("bridge:rocket", location.offset(0, -1, 1))
+
+        var rocketLocation;
+
+        if (rotation == 2) rocketLocation = location.offset(0, -1, -1)
+        else if (rotation == 3) rocketLocation = location.offset(0, -1, 1)
+        else if (rotation == 4) rocketLocation = location.offset(-1, -1, 0)
+        else if (rotation == 5) rocketLocation = location.offset(1, -1, 0)
+
+        var rocket = overworld.spawnEntity("bridge:rocket", rocketLocation)
     }
 }) 

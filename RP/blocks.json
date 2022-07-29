@@ -13,5 +13,9 @@
 	},
 	"bridge:rocket_controller": {
 		"sound": "stone"
+	},
+	"bridge:rocket_plating": {
+		"sound": "stone",
+		"textures": "bridge_rocket_plating"
 	}
 }

@@ -1,5 +1,6 @@
 pack.name=Terrain Generation RP
 pack.description=
+
 tile.bridge:test_stone.name=Test Stone
 tile.bridge:thruster.name=Thruster
 tile.bridge:rocket_controller.name=Rocket Controller
@@ -13,3 +14,4 @@ item.spawn_egg.entity.bridge:hologram_stained_glass.name=Spawn Hologram Stained 
 entity.bridge:hologram_stained_glass.name=Hologram Stained Glass
 item.spawn_egg.entity.bridge:rocket.name=Spawn Rocket
 entity.bridge:rocket.name=Rocket
+tile.bridge:rocket_plating.name=Rocket Plating

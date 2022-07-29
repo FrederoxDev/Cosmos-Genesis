@@ -17,6 +17,14 @@
 						]
 					}
 				]
+			},
+			"minecraft:physics": {
+				"has_collision": true,
+				"has_gravity": true
+			},
+			"minecraft:collision_box": {
+				"height": 6,
+				"width": 1
 			}
 		},
 		"events": {}
