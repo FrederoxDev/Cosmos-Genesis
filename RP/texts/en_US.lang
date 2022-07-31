@@ -15,3 +15,4 @@ entity.bridge:hologram_stained_glass.name=Hologram Stained Glass
 item.spawn_egg.entity.bridge:rocket.name=Spawn Rocket
 entity.bridge:rocket.name=Rocket
 tile.bridge:rocket_plating.name=Rocket Plating
+tile.bridge:cable.name=Cable

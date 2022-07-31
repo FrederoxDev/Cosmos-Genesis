@@ -15,6 +15,9 @@
 		},
 		"bridge_rocket_plating": {
 			"textures": "textures/blocks/metal_sheet"
+		},
+		"bridge_cable": {
+			"textures": "textures/blocks/cable"
 		}
 	}
 }

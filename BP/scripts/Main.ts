@@ -68,8 +68,6 @@ world.events.beforeItemUseOn.subscribe((e) => {
     //@ts-ignore Bridge doesnt have property value
     const rotation: 2 | 3 | 4 | 5 = overworld.getBlock(location).permutation.getProperty("bridge:block_rotation").value;
 
-    console.warn(rotation)
-
     const rocketStructure = [
         {
             "id": "bridge:thruster",
@@ -88,31 +86,35 @@ world.events.beforeItemUseOn.subscribe((e) => {
             "offset": [0, -1, 0]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
             "offset": [1, 0, 1]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
             "offset": [0, 0, 2]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
             "offset": [-1, 0, 1]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
             "offset": [1, 1, 1]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
+            "offset": [0, 0, 1]
+        },
+        {
+            "id": "bridge:rocket_plating",
             "offset": [0, 1, 2]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
             "offset": [-1, 1, 1]
         },
         {
-            "id": "minecraft:iron_block",
+            "id": "bridge:rocket_plating",
             "offset": [0, 1, 0]
         },
         {

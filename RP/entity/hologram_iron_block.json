@@ -2,18 +2,18 @@
 	"format_version": "1.10.0",
 	"minecraft:client_entity": {
 		"description": {
-			"identifier": "bridge:hologram_iron_block",
+			"identifier": "bridge:hologram_rocket_plating",
 			"materials": {
 				"default": "entity_alphatest"
 			},
 			"textures": {
-				"default": "textures/entity/iron_block"
+				"default": "textures/entity/hologram_rocket_plating"
 			},
 			"geometry": {
-				"default": "geometry.hologram_iron_block"
+				"default": "geometry.hologram_rocket_plating"
 			},
 			"render_controllers": [
-				"controller.render.hologram_iron_block"
+				"controller.render.hologram_rocket_plating"
 			],
 			"spawn_egg": {
 				"base_color": "#000000",

@@ -17,5 +17,8 @@
 	"bridge:rocket_plating": {
 		"sound": "stone",
 		"textures": "bridge_rocket_plating"
+	},
+	"bridge:cable": {
+		"sound": "stone"
 	}
 }

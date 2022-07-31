@@ -2,7 +2,7 @@
 	"format_version": "1.19.0",
 	"minecraft:entity": {
 		"description": {
-			"identifier": "bridge:hologram_iron_block",
+			"identifier": "bridge:hologram_rocket_plating",
 			"is_summonable": true
 		},
 		"component_groups": {

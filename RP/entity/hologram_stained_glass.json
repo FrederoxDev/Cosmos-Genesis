@@ -7,7 +7,7 @@
 				"default": "entity_alphablend"
 			},
 			"textures": {
-				"default": "textures/entity/glass_white"
+				"default": "textures/entity/hologram_stained_glass"
 			},
 			"geometry": {
 				"default": "geometry.hologram_stained_glass"
