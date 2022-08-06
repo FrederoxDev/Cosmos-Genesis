@@ -4,14 +4,6 @@
 		"description": {
 			"identifier": "bridge:rocket_controller",
 			"is_experimental": false,
-			"properties": {
-				"bridge:block_rotation": [
-					2,
-					3,
-					4,
-					5
-				]
-			}
 		},
 		"components": {
 			"minecraft:geometry": "geometry.rocket_controller",
@@ -50,60 +42,13 @@
 			"minecraft:on_interact": {
 				"event": "bridge:on_interact"
 			},
-			"minecraft:on_player_placing": {
-				"event": "bridge:update_rotation"
+			"bridge:rotate_y_on_place": {
+				"flip": true
 			}
 		},
-		"permutations": [
-			{
-				"condition": "query.block_property('bridge:block_rotation') == 2",
-				"components": {
-					"minecraft:rotation": [
-						0,
-						180,
-						0
-					]
-				}
-			},
-			{
-				"condition": "query.block_property('bridge:block_rotation') == 3",
-				"components": {
-					"minecraft:rotation": [
-						0,
-						0,
-						0
-					]
-				}
-			},
-			{
-				"condition": "query.block_property('bridge:block_rotation') == 4",
-				"components": {
-					"minecraft:rotation": [
-						0,
-						270,
-						0
-					]
-				}
-			},
-			{
-				"condition": "query.block_property('bridge:block_rotation') == 5",
-				"components": {
-					"minecraft:rotation": [
-						0,
-						90,
-						0
-					]
-				}
-			}
-		],
 		"events": {
 			// Event is caught by the Cosmos Engine
-			"bridge:on_interact": {},
-			"bridge:update_rotation": {
-				"set_block_property": {
-					"bridge:block_rotation": "query.cardinal_facing_2d"
-				}
-			}
+			"bridge:on_interact": {}
 		}
 	}
 }

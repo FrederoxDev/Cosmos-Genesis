@@ -33,6 +33,7 @@
 			"customCommands",
 			"moLang",
 			"formatVersionCorrection",
+			"generatorScripts",
 			[
 				"simpleRewrite",
 				{

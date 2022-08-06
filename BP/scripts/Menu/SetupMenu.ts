@@ -25,7 +25,7 @@ export class SetupMenu {
             languageSelect.button(languages[i].name, languages[i].flag)
         }
 
-        await languageSelect.show(this.player).then(async (res) => { 
+        await languageSelect.show(this.player).then(async (res) => {
             if (res.isCanceled) return this.languageSelect();
             this.language = GetLangFromIndex(res.selection);
 

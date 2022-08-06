@@ -2,7 +2,7 @@
 	"format_version": "1.19.20",
 	"minecraft:block": {
 		"description": {
-			"identifier": "bridge:cable",
+			"identifier": "bridge:powered_cable",
 			"is_experimental": false,
 			"properties": {
 				"bridge:north": [
@@ -30,22 +30,18 @@
 					1
 				],
 				"bridge:cooldown": [
-					4,
-					3,
+					0,
+					1,
 					2,
+					3,
+					4
+				],
+				"bridge:has_power": [
 					1,
 					0
 				]
 			}
 		},
-		"permutations": [
-			{
-				"condition": "query.block_property('bridge:cooldown') == 0",
-				"components": {
-					"tag:bridge:unpowered": {}
-				}
-			}
-		],
 		"components": {
 			"minecraft:geometry": "geometry.cable",
 			"minecraft:material_instances": {
@@ -56,26 +52,14 @@
 			},
 			"minecraft:collision_box": {
 				"origin": [
-					-8,
-					0,
-					-8
+					-2,
+					6,
+					-2
 				],
 				"size": [
-					16,
-					16,
-					16
-				]
-			},
-			"minecraft:selection_box": {
-				"origin": [
-					-8,
-					0,
-					-8
-				],
-				"size": [
-					16,
-					16,
-					16
+					4,
+					4,
+					4
 				]
 			},
 			"minecraft:breathability": "air",
@@ -90,6 +74,9 @@
 					"down": "query.block_property('bridge:down') == 1"
 				}
 			},
+			"minecraft:on_placed": {
+				"event": "bridge:on_placed"
+			},
 			"minecraft:queued_ticking": {
 				"on_tick": {
 					"event": "bridge:on_tick"
@@ -103,19 +90,14 @@
 			"minecraft:on_interact": {
 				"event": "bridge:on_interact"
 			},
-			"minecraft:on_placed": {
-				"event": "bridge:update_connections"
-			},
-			"tag:bridge:cable_connector": {}
+			"tag:bridge:cable_connector": {},
+			"tag:bridge:powered_cable": {}
 		},
 		"events": {
-			"bridge:power": {
+			"bridge:unpower": {
 				"set_block": {
-					"block_type": "bridge:powered_cable"
+					"block_type": "bridge:cable"
 				}
-			},
-			"bridge:on_interact": {
-				"trigger": "bridge:power"
 			},
 			"bridge:on_tick": {
 				"sequence": [
@@ -123,10 +105,29 @@
 						"trigger": "bridge:update_connections"
 					},
 					{
-						"condition": "query.block_property('bridge:cooldown') > 0",
-						"set_block_property": {
-							"bridge:cooldown": "query.block_property('bridge:cooldown') - 1"
-						}
+						"trigger": "bridge:transfer_power"
+					}
+				]
+			},
+			"bridge:on_placed": {
+				"sequence": [
+					{
+						"randomize": [
+							{
+								"weight": 3
+							},
+							{
+								"weight": 1,
+								"run_command": {
+									"command": [
+										"/particle bridge:cable_effect ~ ~ ~"
+									]
+								}
+							}
+						]
+					},
+					{
+						"trigger": "bridge:update_connections"
 					}
 				]
 			},
@@ -161,6 +162,83 @@
 						"set_block_property": {
 							"bridge:down": "query.block_neighbor_has_any_tag(0, -1, 0, 'bridge:cable_connector')"
 						}
+					}
+				]
+			},
+			"bridge:transfer_power": {
+				"randomize": [
+					{
+						"weight": 1,
+						"condition": "query.block_neighbor_has_any_tag(0, 0, -1, 'bridge:unpowered')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								0,
+								-1
+							],
+							"block_type": "bridge:powered_cable"
+						},
+						"trigger": "bridge:unpower"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(1, 0, 0, 'bridge:unpowered')",
+						"set_block_at_pos": {
+							"block_offset": [
+								1,
+								0,
+								0
+							],
+							"block_type": "bridge:powered_cable"
+						},
+						"trigger": "bridge:unpower"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, 0, 1, 'bridge:unpowered')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								0,
+								1
+							],
+							"block_type": "bridge:powered_cable"
+						},
+						"trigger": "bridge:unpower"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(-1, 0, 0, 'bridge:unpowered')",
+						"set_block_at_pos": {
+							"block_offset": [
+								-1,
+								0,
+								0
+							],
+							"block_type": "bridge:powered_cable"
+						},
+						"trigger": "bridge:unpower"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, 1, 0, 'bridge:unpowered')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								1,
+								0
+							],
+							"block_type": "bridge:powered_cable"
+						},
+						"trigger": "bridge:unpower"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, -1, 0, 'bridge:unpowered')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								-1,
+								0
+							],
+							"block_type": "bridge:powered_cable"
+						},
+						"trigger": "bridge:unpower"
 					}
 				]
 			}

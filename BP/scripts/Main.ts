@@ -1,9 +1,10 @@
 import { WorldGenerator } from "./Generation/WorldGenerator";
-import { DynamicPropertiesDefinition, Player, world, MinecraftBlockTypes, Vector } from "mojang-minecraft"
+import { DynamicPropertiesDefinition, Player, world, MinecraftBlockTypes, Vector, BlockLocation, Location } from "mojang-minecraft"
 import { SetupMenu } from "./Menu/SetupMenu";
 import { GetLangFromShort, lang } from "./Localization/Languages";
 import { test } from "./Planets/test";
 import { ChunkCoord } from "./Generation/ChunkCoord";
+import { ActionFormData, ModalFormData } from "mojang-minecraft-ui"
 
 console.warn("§6Cosmos Genesis Loaded! " + new Date().toTimeString())
 
@@ -13,9 +14,11 @@ var host: null | Player = null;
 var language: null | lang = null;
 
 const skipSetup = true;
+var playersInSpace = [];
 
 //#region Cosmos Setup
 world.events.playerJoin.subscribe(async (playerJoinEvent) => {
+    playersInSpace.push(playerJoinEvent.player)
     if (host === null) host = playerJoinEvent.player;
     else return;
 
@@ -213,4 +216,14 @@ world.events.beforeItemUseOn.subscribe((e) => {
 
         var rocket = overworld.spawnEntity("bridge:rocket", rocketLocation)
     }
-}) 
+})
+
+world.events.blockBreak.subscribe((e) => {
+    const form = new ActionFormData()
+        .title("Moon")
+        .button("<")
+        .button("Select")
+        .button(">")
+
+    form.show(e.player)
+})

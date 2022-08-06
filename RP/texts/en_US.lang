@@ -16,3 +16,5 @@ item.spawn_egg.entity.bridge:rocket.name=Spawn Rocket
 entity.bridge:rocket.name=Rocket
 tile.bridge:rocket_plating.name=Rocket Plating
 tile.bridge:cable.name=Cable
+tile.bridge:testing_block.name=Testing Block
+tile.bridge:solar_panel.name=Solar Panel

@@ -1,0 +1,109 @@
+{
+	"format_version": "1.19.20",
+	"minecraft:block": {
+		"description": {
+			"identifier": "bridge:testing_block"
+		},
+		"components": {
+			"minecraft:queued_ticking": {
+				"on_tick": {
+					"event": "bridge:on_tick"
+				},
+				"looping": true,
+				"interval_range": [
+					10,
+					10
+				]
+			},
+			"tag:bridge:cable_connector": {}
+		},
+		"events": {
+			"bridge:on_tick": {
+				"trigger": "bridge:check_for_power"
+			},
+			"bridge:on_power": {
+				"run_command": {
+					"command": [
+						"/say Block recieved power"
+					]
+				}
+			},
+			"bridge:check_for_power": {
+				"sequence": [
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, 0, -1, 'bridge:powered_cable')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								0,
+								-1
+							],
+							"block_type": "bridge:cable"
+						},
+						"trigger": "bridge:on_power"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(1, 0, 0, 'bridge:powered_cable')",
+						"set_block_at_pos": {
+							"block_offset": [
+								1,
+								0,
+								0
+							],
+							"block_type": "bridge:cable"
+						},
+						"trigger": "bridge:on_power"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, 0, 1, 'bridge:powered_cable')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								0,
+								1
+							],
+							"block_type": "bridge:cable"
+						},
+						"trigger": "bridge:on_power"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(-1, 0, 0, 'bridge:powered_cable')",
+						"set_block_at_pos": {
+							"block_offset": [
+								-1,
+								0,
+								0
+							],
+							"block_type": "bridge:cable"
+						},
+						"trigger": "bridge:on_power"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, 1, 0, 'bridge:powered_cable')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								1,
+								0
+							],
+							"block_type": "bridge:cable"
+						},
+						"trigger": "bridge:on_power"
+					},
+					{
+						"condition": "query.block_neighbor_has_any_tag(0, -1, 0, 'bridge:powered_cable')",
+						"set_block_at_pos": {
+							"block_offset": [
+								0,
+								-1,
+								0
+							],
+							"block_type": "bridge:cable"
+						},
+						"trigger": "bridge:on_power"
+					}
+				]
+			}
+		}
+	}
+}

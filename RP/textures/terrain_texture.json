@@ -18,6 +18,15 @@
 		},
 		"bridge_cable": {
 			"textures": "textures/blocks/cable"
+		},
+		"bridge_powered_cable": {
+			"textures": "textures/blocks/powered_cable"
+		},
+		"bridge_testing_block": {
+			"textures": "textures/blocks/testing_block"
+		},
+		"bridge_solar_panel": {
+			"textures": "textures/blocks/solar_panel"
 		}
 	}
 }

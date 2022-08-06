@@ -20,5 +20,13 @@
 	},
 	"bridge:cable": {
 		"sound": "stone"
+	},
+	"bridge:testing_block": {
+		"sound": "stone",
+		"textures": "bridge_testing_block"
+	},
+	"bridge:solar_panel": {
+		"sound": "stone",
+		"textures": "bridge_solar_panel"
 	}
 }
