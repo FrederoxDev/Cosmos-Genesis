@@ -1,229 +1,30 @@
-import { WorldGenerator } from "./Generation/WorldGenerator";
-import { DynamicPropertiesDefinition, Player, world, MinecraftBlockTypes, Vector, BlockLocation, Location } from "mojang-minecraft"
-import { SetupMenu } from "./Menu/SetupMenu";
-import { GetLangFromShort, lang } from "./Localization/Languages";
-import { test } from "./Planets/test";
-import { ChunkCoord } from "./Generation/ChunkCoord";
-import { ActionFormData, ModalFormData } from "mojang-minecraft-ui"
+import { DynamicPropertiesDefinition, Player, world } from "mojang-minecraft"
+import { lang, languages, GetLangFromShort } from "./Localization/Languages";
+import { SaveSystem } from "./SaveSystem"
 
-console.warn("§6Cosmos Genesis Loaded! " + new Date().toTimeString())
-
-const setupMenu = new SetupMenu()
-
+var saveSystem: null | SaveSystem = null;
 var host: null | Player = null;
-var language: null | lang = null;
+var language: lang = languages[0];
 
-const skipSetup = true;
-var playersInSpace = [];
-
-//#region Cosmos Setup
-world.events.playerJoin.subscribe(async (playerJoinEvent) => {
-    playersInSpace.push(playerJoinEvent.player)
-    if (host === null) host = playerJoinEvent.player;
-    else return;
-
-    if (skipSetup) return;
-
-    /* Ran when the world has already been setup */
-    if (world.getDynamicProperty("setupCompleted") === true) {
-        language = GetLangFromShort(world.getDynamicProperty("language"));
-        return
-    }
-
-    /* Ran if the world has not been setup */
-    const startPos = host.location;
-
-    await setupMenu.start(playerJoinEvent.player)
-    language = GetLangFromShort(world.getDynamicProperty("language"))
-    world.setDynamicProperty("setupCompleted", true)
-
-    const worldGenerator = new WorldGenerator(16, 60);
-    const playerChunk = new ChunkCoord(400, 400)
-
-    await worldGenerator.GeneratePlanet(host, 12, playerChunk, test);
-    host.teleport(startPos, world.getDimension("overworld"), 0, 0, false)
-})
-//#endregion
-
-//#region Initialization 
-world.events.worldInitialize.subscribe((event) => {
+//#region Property Initialization
+world.events.worldInitialize.subscribe((e) => {
     const def = new DynamicPropertiesDefinition()
 
-    try { world.getDynamicProperty("setupCompleted") }
-    catch { def.defineBoolean("setupCompleted") }
+    try { world.getDynamicProperty("data") }
+    catch { def.defineString("data", 2000) }
 
-    try { world.getDynamicProperty("seed") }
-    catch { def.defineString("seed", 32) }
-
-    try { world.getDynamicProperty("language") }
-    catch { def.defineString("language", 2) }
-
-    event.propertyRegistry.registerWorldDynamicProperties(def);
+    e.propertyRegistry.registerWorldDynamicProperties(def);
 })
 //#endregion
 
-world.events.beforeItemUseOn.subscribe((e) => {
-    const location = e.blockLocation;
-    const overworld = world.getDimension("overworld");
+//#region Loading Game Data
+world.events.blockBreak.subscribe(async (e) => {
+    if (host != null) return;
+    host = e.player;
 
-    if (overworld.getBlock(location).id != "bridge:rocket_controller") return;
+    saveSystem = new SaveSystem(e.player);
+    await saveSystem.LoadData()
 
-    //@ts-ignore Bridge doesnt have property value
-    const rotation: 2 | 3 | 4 | 5 = overworld.getBlock(location).permutation.getProperty("bridge:block_rotation").value;
-
-    const rocketStructure = [
-        {
-            "id": "bridge:thruster",
-            "offset": [1, -1, 1]
-        },
-        {
-            "id": "bridge:thruster",
-            "offset": [0, -1, 2]
-        },
-        {
-            "id": "bridge:thruster",
-            "offset": [-1, -1, 1]
-        },
-        {
-            "id": "bridge:thruster",
-            "offset": [0, -1, 0]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [1, 0, 1]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [0, 0, 2]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [-1, 0, 1]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [1, 1, 1]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [0, 0, 1]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [0, 1, 2]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [-1, 1, 1]
-        },
-        {
-            "id": "bridge:rocket_plating",
-            "offset": [0, 1, 0]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [1, 2, 1]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [0, 2, 2]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [-1, 2, 1]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [0, 2, 0]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [1, 3, 1]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [0, 3, 2]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [-1, 3, 1]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [0, 3, 0]
-        },
-        {
-            "id": "minecraft:stained_glass",
-            "offset": [0, 4, 1]
-        },
-    ]
-
-    var failed = false;
-    var missingBlocks = []
-
-    rocketStructure.forEach((block) => {
-        var offsetLocation;
-
-        if (rotation == 2) offsetLocation = location.offset(block.offset[0], block.offset[1], -block.offset[2])
-        else if (rotation == 3) offsetLocation = location.offset(block.offset[0], block.offset[1], block.offset[2])
-        else if (rotation == 4) offsetLocation = location.offset(-block.offset[2], block.offset[1], block.offset[0])
-        else if (rotation == 5) offsetLocation = location.offset(block.offset[2], block.offset[1], block.offset[0])
-
-        if (overworld.getBlock(offsetLocation).id != block.id) {
-            overworld.spawnEntity(`bridge:hologram_${block.id.split(":")[1]}`, offsetLocation)
-            missingBlocks.push(block.id);
-            failed = true;
-        }
-    })
-
-    if (failed) {
-        var count = {}
-
-        for (const id of missingBlocks) {
-            if (count[id]) count[id] += 1;
-            else count[id] = 1;
-        }
-
-        var output = "[COSMOS] Could not build Rocket, Missing:"
-        for (var block of Object.entries(count)) {
-            output += `\n- ${block[1]}x ${block[0]}`
-        }
-
-        e.source.runCommand(`tellraw @s {"rawtext":[{"text":"${output}"}]}`)
-    }
-    else {
-        e.source.runCommand(`tellraw @s {"rawtext":[{"text":"Rocket Constructed!"}]}`);
-
-        rocketStructure.forEach((block) => {
-            var offsetLocation;
-
-            if (rotation == 2) offsetLocation = location.offset(block.offset[0], block.offset[1], -block.offset[2])
-            else if (rotation == 3) offsetLocation = location.offset(block.offset[0], block.offset[1], block.offset[2])
-            else if (rotation == 4) offsetLocation = location.offset(-block.offset[2], block.offset[1], block.offset[0])
-            else if (rotation == 5) offsetLocation = location.offset(block.offset[2], block.offset[1], block.offset[0])
-
-            overworld.getBlock(offsetLocation).setType(MinecraftBlockTypes.air)
-        })
-
-        overworld.getBlock(location).setType(MinecraftBlockTypes.air)
-
-        var rocketLocation;
-
-        if (rotation == 2) rocketLocation = location.offset(0, -1, -1)
-        else if (rotation == 3) rocketLocation = location.offset(0, -1, 1)
-        else if (rotation == 4) rocketLocation = location.offset(-1, -1, 0)
-        else if (rotation == 5) rocketLocation = location.offset(1, -1, 0)
-
-        var rocket = overworld.spawnEntity("bridge:rocket", rocketLocation)
-    }
+    language = GetLangFromShort(saveSystem.data.language)
 })
-
-world.events.blockBreak.subscribe((e) => {
-    const form = new ActionFormData()
-        .title("Moon")
-        .button("<")
-        .button("Select")
-        .button(">")
-
-    form.show(e.player)
-})
+//#endregion 
