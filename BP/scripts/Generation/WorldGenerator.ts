@@ -25,7 +25,7 @@ export class WorldGenerator {
 
     private SimplexNoise: SimplexNoise;
 
-    constructor(chunkWidth: number, chunkHeight: number) {
+    constructor(chunkWidth: number, chunkHeight: number, seed: string) {
         this.chunkWidth = chunkWidth;
         this.chunkHeight = chunkHeight;
         this.isBuildingChunks = false;
@@ -37,9 +37,7 @@ export class WorldGenerator {
         this.xIndex = 0;
         this.zIndex = 0;
 
-        this.SimplexNoise = new SimplexNoise(
-            <string> world.getDynamicProperty("seed")
-        )
+        this.SimplexNoise = new SimplexNoise(seed)
     }
 
     public LocationToChunkCoord(location: Location): ChunkCoord {
@@ -72,7 +70,10 @@ export class WorldGenerator {
         this.totalChunksBuilt = 0;
         this.QueueNewChunks();
 
-        // this.player.addEffect(MinecraftEffectTypes.blindness, 1000000000, 255, false);
+        const startPos = this.player.location;
+        this.TeleportPlayerToChunk()
+        this.player.addEffect(MinecraftEffectTypes.blindness, 1000000000, 255, false);
+        this.player.runCommand("gamemode spectator")
 
         world.events.tick.subscribe(this.GenTick)
 
@@ -85,12 +86,15 @@ export class WorldGenerator {
         // Unsubscribe again from the tick event
         world.events.tick.unsubscribe(this.GenTick)
 
-        // this.player.runCommand("effect @s clear")
+        this.player.runCommand("effect @s clear")
 
         // Print timing information
         const endTime = new Date().getTime();
         console.warn(`Generated ${this.planetSize * this.planetSize} chunks in ${endTime - startTime}ms`)
         console.warn(`Chunk Average Time ${(endTime - startTime) / (this.planetSize * this.planetSize)}ms`)
+
+        this.player.teleport(startPos, world.getDimension("overworld"), 0, 0, false)
+        this.player.runCommand("gamemode survival")
     }
 
     public GenTick = (tickEvent: TickEvent) => {
@@ -116,12 +120,12 @@ export class WorldGenerator {
     public DisplayProgressBar() {
         var total = this.planetSize * this.planetSize;
         var percentage = (this.totalChunksBuilt / total) * 100;
-        
+
         var barLength = 16;
         var bar = "";
 
         var complete = Math.floor(barLength * (this.totalChunksBuilt / total))
-        
+
         bar += "█".repeat(complete)
         bar += "▒".repeat(barLength - complete)
 
@@ -182,7 +186,7 @@ export class WorldGenerator {
     public GetBlock(octave1: number, biome: Biome, y: number): string {
         const terrainHeight = 30 + Math.floor(octave1 * 20)
         var blockID = "air"
-        
+
         if (y === terrainHeight) blockID = biome.surface_parameters.top_material;
         else if (y > terrainHeight - 3 && y < terrainHeight) blockID = biome.surface_parameters.mid_material;
         else if (y < terrainHeight) blockID = biome.surface_parameters.foundation_material;

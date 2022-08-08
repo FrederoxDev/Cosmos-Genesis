@@ -1,9 +1,10 @@
-import { Player, world } from "mojang-minecraft";
+	import { Player, world } from "mojang-minecraft";
 import { SetupMenu } from "./SetupMenu";
 
 export interface GameData {
     language: string;
     seed: string;
+    hasGeneratedWorld: boolean;
 }
 
 export class SaveSystem {
@@ -27,7 +28,8 @@ export class SaveSystem {
 
         this.data = {
             language: language.shortName,
-            seed: worldSettings.seed
+            seed: worldSettings.seed,
+            hasGeneratedWorld: false
         }
 
         this.SaveData()

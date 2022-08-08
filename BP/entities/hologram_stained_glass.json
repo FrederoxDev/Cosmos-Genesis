@@ -2,7 +2,7 @@
 	"format_version": "1.16.0",
 	"minecraft:entity": {
 		"description": {
-			"identifier": "bridge:hologram_stained_glass",
+			"identifier": "bridge:hologram_glass",
 			"is_summonable": true
 		},
 		"component_groups": {

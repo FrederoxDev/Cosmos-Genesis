@@ -1,0 +1,64 @@
+{
+	"format_version": "1.10.0",
+	"particle_effect": {
+		"description": {
+			"identifier": "bridge:stars",
+			"basic_render_parameters": {
+				"material": "particles_alpha",
+				"texture": "textures/particle/particles"
+			}
+		},
+		"components": {
+			"minecraft:emitter_rate_steady": {
+				"spawn_rate": 640,
+				"max_particles": 1000
+			},
+			"minecraft:emitter_lifetime_once": {
+				"active_time": 20
+			},
+			"minecraft:emitter_shape_box": {
+				"half_dimensions": [
+					12,
+					12,
+					12
+				],
+				"surface_only": true
+			},
+			"minecraft:particle_lifetime_expression": {
+				"max_lifetime": "variable.particle_random_2 * 3"
+			},
+			"minecraft:particle_expire_if_not_in_blocks": [
+				"minecraft:air"
+			],
+			"minecraft:particle_appearance_billboard": {
+				"size": [
+					"variable.particle_random_3 / 5",
+					"variable.particle_random_3 / 5"
+				],
+				"facing_camera_mode": "rotate_xyz",
+				"uv": {
+					"texture_width": 128,
+					"texture_height": 128,
+					"uv": [
+						"8 * (0.125 * (math.floor(variable.particle_random_2*7)*8))",
+						80
+					],
+					"uv_size": [
+						8,
+						8
+					]
+				}
+			},
+			"minecraft:particle_appearance_tinting": {
+				"color": {
+					"interpolant": "variable.particle_random_1",
+					"gradient": {
+						"0.09": "#FFFBF8DA",
+						"0.61": "#FF7FCECE",
+						"1.0": "#FFCD8F8F"
+					}
+				}
+			}
+		}
+	}
+}

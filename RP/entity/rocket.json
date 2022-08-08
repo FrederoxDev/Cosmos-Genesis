@@ -4,7 +4,7 @@
 		"description": {
 			"identifier": "bridge:rocket",
 			"materials": {
-				"default": "entity_alphablend"
+				"default": "alpha_block_color"
 			},
 			"textures": {
 				"default": "textures/entity/rocket"

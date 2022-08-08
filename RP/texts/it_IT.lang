@@ -1,12 +1,12 @@
 pack.name=Cosmos Genesis RP
-pack.description=
+pack.description=Un addon spaziale! Tradotto da Kurama
 
-tile.bridge:rocket_controller.name=Rocket Controller
-tile.bridge:thruster.name=Thruster
-tile.bridge:rocket_plating.name=Rocket Plating
+tile.bridge:rocket_controller.name=Controllo Del Razzo
+tile.bridge:thruster.name=Propulsore Razzo
+tile.bridge:rocket_plating.name=Piantaggio per Razzo
 
-tile.bridge:solar_panel.name=Solar Panel
-tile.bridge:cable.name=Cable
+tile.bridge:solar_panel.name=Pannello Solare
+tile.bridge:cable.name=Cavo
 
-item.spawn_egg.entity.bridge:rocket.name=Spawn Rocket
-entity.bridge:rocket.name=Rocket
+item.spawn_egg.entity.bridge:rocket.name=Crea Razzo
+entity.bridge:rocket.name=Razzo

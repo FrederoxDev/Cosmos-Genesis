@@ -40,7 +40,9 @@
 			"minecraft:block_light_absorption": 0,
 			"minecraft:breathability": "air",
 			"minecraft:on_interact": {
-				"event": "bridge:on_interact"
+				"event": "bridge:on_interact",
+				"condition": "query.is_sneaking",
+				"target": "other"
 			},
 			"bridge:rotate_y_on_place": {
 				"flip": true
