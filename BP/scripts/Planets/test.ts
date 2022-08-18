@@ -1,8 +1,18 @@
 import { Biome } from "../Generation/Biome";
 import { Planet } from "../Generation/Planet";
+import { ChunkCoord } from "../Generation/ChunkCoord"
+
+export const none: Planet = {
+    identifier: "none",
+    location: undefined,
+    size: 0,
+    biomes: []
+}
 
 export const test: Planet = {
     identifier: "test",
+    location: new ChunkCoord(1000, 1000),
+    size: 9,
     biomes: [
         {
             identifier: "snow",

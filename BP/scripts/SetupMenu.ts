@@ -1,5 +1,6 @@
 import { Player, world } from "mojang-minecraft";
 import { ActionFormData, ModalFormData } from "mojang-minecraft-ui"
+import { Planet } from "./Generation/Planet";
 import { languages, lang } from "./Localization/Languages";
 
 export class SetupMenu {
@@ -9,7 +10,7 @@ export class SetupMenu {
         this.host = host;
     }
 
-    public async GetPlayerLanguage() {
+    public async GetPlayerLanguage(): Promise<lang> {
         const languageSelect = new ActionFormData()
             .title("Choose Language")
 
@@ -17,19 +18,12 @@ export class SetupMenu {
             languageSelect.button(languages[i].name, languages[i].flag)
         }
 
-        // default language
-        var lang = null
+        const e = await languageSelect.show(this.host);
 
-        await languageSelect.show(this.host).then(async (e) => {
-            if (e.isCanceled) {
-                lang = await this.GetPlayerLanguage()
-                return lang;
-            }
+        if (e.isCanceled || (e.isCanceled === undefined && e.selection === undefined))
+            return await this.GetPlayerLanguage()
 
-            lang = languages[e.selection]
-        })
-
-        return lang
+        return languages[e.selection]
     }
 
     public async GetWorldSettings(lang: lang): Promise<WorldSettings> {
@@ -39,21 +33,29 @@ export class SetupMenu {
             .title(lang.worldSettings.title)
             .textField(seed, seed, "")
 
-        // default language
-        var settings = null;
+        const e = await worldSettings.show(this.host)
+        if (e.isCanceled || (e.isCanceled === undefined && e.formValues === undefined))
+            return await this.GetWorldSettings(lang);
 
-        await worldSettings.show(this.host).then(async (e) => {
-            if (e.isCanceled) {
-                settings = await this.GetWorldSettings(lang)
-                return settings;
-            }
 
-            settings = {
-                seed: e.formValues[0]
-            }
-        })
+        return {
+            seed: e.formValues[0]
+        }
+    }
 
-        return settings
+    public async GetPlanetSelection(lang: lang, player: Player, planets: Planet[]): Promise<Planet> {
+        const planetSelection = new ActionFormData()
+            .title("Planet Selection")
+
+        for (var i = 0; i < planets.length; i++) {
+            planetSelection.button(planets[i].identifier)
+        }
+
+        const e = await planetSelection.show(player);
+        if (e.isCanceled || (e.isCanceled === undefined && e.selection === undefined))
+            return await this.GetPlanetSelection(lang, player, planets);
+
+        return planets[e.selection]
     }
 }
 

@@ -1,14 +1,16 @@
-import { DynamicPropertiesDefinition, EntityRideableComponent, IEntityComponent, Player, world, Location, Vector, MinecraftBlockTypes } from "mojang-minecraft"
+import { DynamicPropertiesDefinition, Player, world, Location, Vector, MinecraftBlockTypes } from "mojang-minecraft"
 import { ChunkCoord } from "./Generation/ChunkCoord";
-import { test } from "./Planets/test"
+import { none, test } from "./Planets/test"
 import { WorldGenerator } from "./Generation/WorldGenerator";
 import { lang, languages, GetLangFromShort } from "./Localization/Languages";
-import { SaveSystem } from "./SaveSystem"
+import { PlayerData, SaveSystem } from "./SaveSystem"
+import { SetupMenu } from "./SetupMenu";
 
 var saveSystem: null | SaveSystem = null;
 var host: null | Player = null;
 var language: lang = languages[0];
 var travellingPlayers = []
+var planets = [none, test]
 
 //#region Property Initialization
 world.events.worldInitialize.subscribe((e) => {
@@ -43,109 +45,10 @@ world.events.blockBreak.subscribe(async (e) => {
 })
 //#endregion 
 
-world.events.beforeChat.subscribe((e) => {
+//#region Chat Events
+world.events.beforeChat.subscribe(async (e) => {
     if (e.message == "!data") e.message = JSON.stringify(saveSystem.data)
-})
-
-//#region Detect Players In Rockets
-world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
-    if (e.id != "bridge:on_rider_detected") return;
-
-    var rocket = e.entity;
-    const players = Array.from(world.getDimension("overworld").getPlayers())
-
-    //@ts-ignore getComponent returns EntityRideableComponent 
-    const pos = OffsetLocation(rocket.getComponent("minecraft:rideable").seats[0].position, rocket.location);
-    const player = players.find((player) => player.location.isNear(pos, 0.5))
-
-    if (travellingPlayers.find((trackedPlayer) => trackedPlayer.name == player.name)) return;
-    travellingPlayers.push(player)
-
-    const startTime = new Date().getTime()
-    var playingTransition = true;
-    var animationIndex = 0;
-
-    while (playingTransition) {
-        var timePassed = (new Date().getTime() - startTime) / 1000;
-
-        if (timePassed > 0 && animationIndex == 0) {
-            player.runCommand("title @s title 3")
-            animationIndex++;
-        }
-
-        if (timePassed > 1 && animationIndex == 1) {
-            player.runCommand("title @s title 2")
-            animationIndex++;
-        }
-
-        if (timePassed > 2 && animationIndex == 2) {
-            player.runCommand("title @s title 1")
-            animationIndex++;
-        }
-
-        if (timePassed > 3 && animationIndex == 3) {
-            animationIndex++;
-            rocket.setVelocity(new Vector(0, 3, 0))
-        }
-
-        if (timePassed > 5 && animationIndex == 4) {
-            animationIndex++;
-            rocket.setVelocity(new Vector(0, 4, 0));
-            player.runCommand("effect @s darkness 35 0 true")
-        }
-
-        if (timePassed > 10 && animationIndex == 5) {
-            animationIndex++;
-            rocket.setVelocity(new Vector(0, 0, 0))
-            player.runCommand("particle bridge:stars ~ ~ ~")
-        }
-
-        if (timePassed > 11 && animationIndex == 6) {
-            animationIndex++;
-            rocket.kill()
-            player.runCommand("gamemode spectator")
-        }
-
-        if (timePassed > 11.2 && animationIndex == 7) {
-            animationIndex++;
-            player.teleport(new Location(16076, 500, 16059), world.getDimension("overworld"), 0, 0);
-        }
-
-        if (timePassed > 12 && animationIndex == 8) {
-            animationIndex++;
-            player.runCommand("gamemode survival")
-            player.runCommand("particle bridge:stars ~ ~ ~")
-            player.runCommand("ride @s summon_ride bridge:rocket")
-        }
-
-        if (timePassed > 12.2 && animationIndex == 9) {
-            animationIndex++;
-
-            //@ts-ignore
-            rocket = Array.from(world.getDimension("overworld").getEntities({
-                location: player.location,
-                maxDistance: 10,
-                type: "bridge:rocket"
-            }))[0];
-
-            rocket.setVelocity(new Vector(0, -1.3, 0))
-        }
-
-        if (rocket.location.y < 90 && animationIndex == 10) {
-            animationIndex++;
-            rocket.setVelocity(new Vector(0, -0.4, 0))
-            player.runCommand("effect @s clear")
-        }
-
-        if (rocket.location.y < 70 && animationIndex == 11) {
-            animationIndex++;
-            rocket.setVelocity(new Vector(0, -0.2, 0))
-
-            playingTransition = false;
-        }
-
-        await null;
-    }
+    if (e.message == "!del") world.setDynamicProperty("data", "")
 })
 //#endregion
 
@@ -307,6 +210,190 @@ world.events.beforeItemUseOn.subscribe((e) => {
 })
 //#endregion
 
+//#region Detect Players In Rockets
+world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
+    if (e.id != "bridge:on_rider_detected") return;
+
+    if (saveSystem === null) {
+        console.warn("No data loaded")
+        return;
+    }
+
+    try {
+        var rocket = e.entity;
+        const players = Array.from(world.getDimension("overworld").getPlayers())
+
+        //@ts-ignore getComponent returns EntityRideableComponent 
+        const pos = OffsetLocation(rocket.getComponent("minecraft:rideable").seats[0].position, rocket.location);
+        const player = players.find((player) => player.location.isNear(pos, 0.5))
+
+        const currentPlanet = GetPlanetIdentifier(player.location.x, player.location.z);
+
+        if (travellingPlayers.find((trackedPlayer) => trackedPlayer.name == player.name)) {
+            console.warn("Plyr is trcked")
+            return;
+        }
+        travellingPlayers.push(player)
+
+        var setupMenu = new SetupMenu(host)
+        var selectedPlanetID = (await setupMenu.GetPlanetSelection(language, player, planets)).identifier;
+
+        console.warn("Going to " + selectedPlanetID)
+
+        var index = saveSystem.data.playerData.findIndex(playerData => playerData.name === player.name)
+
+        if (index == -1) {
+            saveSystem.data.playerData.push({
+                name: player.name,
+                earthLocation: undefined,
+                planet: undefined
+            })
+
+            var index = saveSystem.data.playerData.findIndex(playerData => playerData.name === player.name)
+        }
+
+        if (currentPlanet === "none") saveSystem.data.playerData[index].earthLocation = LocationToJSON(player.location);
+        saveSystem.data.playerData[index].planet = selectedPlanetID;
+
+        saveSystem.SaveData()
+
+        var targetX;
+        var targetZ;
+
+        if (selectedPlanetID != "none") {
+            targetX = saveSystem.data.playerData[index].earthLocation.x;
+            targetZ = saveSystem.data.playerData[index].earthLocation.z;
+        }
+
+        else {
+            targetX = 16076;
+            targetZ = 16076;
+        }
+
+        const startTime = new Date().getTime()
+        var playingTransition = true;
+        var animationIndex = 0;
+
+        while (playingTransition) {
+            var timePassed = (new Date().getTime() - startTime) / 1000;
+
+            if (timePassed > 0 && animationIndex == 0) {
+                player.runCommand("title @s title 3")
+                animationIndex++;
+            }
+
+            if (timePassed > 1 && animationIndex == 1) {
+                player.runCommand("title @s title 2")
+                animationIndex++;
+            }
+
+            if (timePassed > 2 && animationIndex == 2) {
+                player.runCommand("title @s title 1")
+                animationIndex++;
+            }
+
+            if (timePassed > 3 && animationIndex == 3) {
+                animationIndex++;
+                rocket.setVelocity(new Vector(0, 3, 0))
+            }
+
+            if (timePassed > 5 && animationIndex == 4) {
+                animationIndex++;
+                rocket.setVelocity(new Vector(0, 4, 0));
+                player.runCommand("effect @s darkness 35 0 true")
+            }
+
+            if (timePassed > 10 && animationIndex == 5) {
+                animationIndex++;
+                rocket.setVelocity(new Vector(0, 0, 0))
+                player.runCommand("particle bridge:stars ~ ~ ~")
+            }
+
+            if (timePassed > 11 && animationIndex == 6) {
+                animationIndex++;
+                rocket.kill()
+                player.runCommand("gamemode spectator")
+            }
+
+            if (timePassed > 11.2 && animationIndex == 7) {
+                animationIndex++;
+                player.teleport(new Location(targetX, 500, targetZ), world.getDimension("overworld"), 0, 0);
+            }
+
+            if (timePassed > 12 && animationIndex == 8) {
+                animationIndex++;
+                player.runCommand("gamemode survival")
+                player.runCommand("particle bridge:stars ~ ~ ~")
+                player.runCommand("ride @s summon_ride bridge:rocket")
+            }
+
+            if (timePassed > 12.2 && animationIndex == 9) {
+                animationIndex++;
+
+                console.warn(1)
+
+                //@ts-ignore
+                rocket = Array.from(world.getDimension("overworld").getEntities({
+                    location: player.location,
+                    maxDistance: 10,
+                    type: "bridge:rocket"
+                }))[0];
+
+                console.warn(2)
+
+                rocket.setVelocity(new Vector(0, -1.3, 0))
+            }
+
+            if (rocket.location.y < 90 && animationIndex == 10) {
+                animationIndex++;
+                rocket.setVelocity(new Vector(0, -0.4, 0))
+                player.runCommand("effect @s clear")
+            }
+
+            if (rocket.location.y < 70 && animationIndex == 11) {
+                animationIndex++;
+                rocket.setVelocity(new Vector(0, -0.2, 0))
+
+                travellingPlayers.shift();
+
+                playingTransition = false;
+            }
+
+            await null;
+        }
+    } catch (e) { console.warn(e) }
+})
+//#endregion
+
+//#region Utility Functions
 function OffsetLocation(a, b) {
     return new Location(a.x + b.x, a.y + b.y, a.z + b.z)
 }
+
+function GetPlanetIdentifier(x, z) {
+    var planetId = "none"
+
+    planets.forEach(planet => {
+        if (planet.identifier != "none") {
+            const lowerX = planet.location.x * 16;
+            const lowerZ = planet.location.z * 16;
+            const upperX = (planet.location.x + planet.size) * 16;
+            const upperZ = (planet.location.z + planet.size) * 16;
+
+            if ((x >= lowerX && x <= upperX) && (z >= lowerZ && z <= upperZ)) {
+                planetId = planet.identifier;
+            }
+        }
+    })
+
+    return planetId;
+}
+
+function LocationToJSON(location: Location) {
+    return {
+        x: Math.floor(location.x),
+        y: Math.floor(location.y),
+        z: Math.floor(location.z)
+    }
+}
+//#endregion

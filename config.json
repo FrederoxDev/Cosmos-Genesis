@@ -26,6 +26,7 @@
 	"compiler": {
 		"plugins": [
 			"typeScript",
+			"generatorScripts",
 			"entityIdentifierAlias",
 			"customEntityComponents",
 			"customItemComponents",
@@ -33,7 +34,6 @@
 			"customCommands",
 			"moLang",
 			"formatVersionCorrection",
-			"generatorScripts",
 			[
 				"simpleRewrite",
 				{
