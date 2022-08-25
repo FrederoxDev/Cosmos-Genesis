@@ -19,5 +19,5 @@ Features all completed with documentation, posted to major sites
 - [ ] Flora Features
 - [ ] Tree Features
 - [ ] Ore Features
-- [ ] Read generation data from .json files
+- [x] Read generation data from .json files
 - [ ] Change the actual biomes of the chunks
