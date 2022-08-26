@@ -23,7 +23,6 @@ Features all completed with documentation, posted to major sites
 - [ ] Change the actual biomes of the chunks
 
 # v0.2 Backend
-- [ ] Text localization system
 - [ ] Data serlialization
 - [ ] Player data & tracking planets
 - [ ] Player death
