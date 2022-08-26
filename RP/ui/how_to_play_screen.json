@@ -1,0 +1,1163 @@
+{
+	"namespace": "how_to_play",
+	"how_to_play_screen@how_to_play_common.screen_base": {
+		"$selector_stack_panel": "how_to_play.selector_stack_panel",
+		"$section_content_panels": "how_to_play.section_content_panels",
+		"$header_safezone_control": "common_store.store_top_bar_filler",
+		"$header_bar_control": "common_store.store_top_bar",
+		"$is_full_screen_layout": true
+	},
+	"selector_stack_panel": {
+		"type": "stack_panel",
+		"anchor_from": "top_left",
+		"anchor_to": "top_left",
+		"orientation": "vertical",
+		"$default_selector_toggle_index": 0,
+		"controls": [
+			{
+				"how_to_play_selector_pane": {
+					"type": "stack_panel",
+					"controls": [
+						{
+							"padding_0": {
+								"type": "panel",
+								"size": [
+									0,
+									6
+								]
+							}
+						},
+						{
+							"category_1@how_to_play_common.topic_category": {
+								"$category": "Information"
+							}
+						},
+						{
+							"section_0_button@how_to_play.section_0_button": {
+								"$toggle_group_forced_index": 0
+							}
+						},
+						{
+							"category_2@how_to_play_common.topic_category": {
+								"$category": "Guides"
+							}
+						},
+						{
+							"section_1_button@how_to_play.section_1_button": {
+								"$toggle_group_forced_index": 1
+							}
+						},
+						{
+							"section_2_button@how_to_play.section_2_button": {
+								"$toggle_group_forced_index": 2
+							}
+						},
+						{
+							"section_3_button@how_to_play.section_3_button": {
+								"$toggle_group_forced_index": 3
+							}
+						}
+					]
+				}
+			}
+		]
+	},
+	"section_content_panels": {
+		"type": "stack_panel",
+		"anchor_from": "top_left",
+		"anchor_to": "top_left",
+		"size": [
+			"100% - 5px",
+			"100%c + 5px"
+		],
+		"offset": [
+			2,
+			0
+		],
+		"controls": [
+			{
+				"general_tips_sections": {
+					"type": "stack_panel",
+					"controls": [
+						{
+							"section_contents_header@how_to_play_common.section_contents_header": {}
+						},
+						{
+							"section_0@how_to_play.section_0": {}
+						},
+						{
+							"section_1@how_to_play.section_1": {}
+						},
+						{
+							"section_2@how_to_play.section_2": {}
+						},
+						{
+							"section_3@how_to_play.section_3": {}
+						}
+					]
+				}
+			}
+		]
+	},
+	"section_0_button@how_to_play_common.section_toggle_button": {
+		"$section_topic": "Markdown Docs"
+	},
+	"section_0@how_to_play_common.main_sections": {
+		"bindings": [
+			{
+				"binding_type": "view",
+				"source_control_name": "Markdown Docs_button_toggle",
+				"source_property_name": "#toggle_state",
+				"target_property_name": "#visible"
+			}
+		],
+		"controls": [
+			{
+				"header_0@how_to_play_common.header": {
+					"$text": "Markdown Doc Generator "
+				}
+			},
+			{
+				"paragraph_1@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_2@how_to_play_common.paragraph": {
+					"$text": "This extension is built to quickly and easily generate documentation pages with bridge generator scripts from markdown ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_3@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_4@how_to_play_common.paragraph": {
+					"$text": "Built by FrederoxDev ",
+					"$text_alignment": "left"
+				}
+			}
+		]
+	},
+	"section_1_button@how_to_play_common.section_toggle_button": {
+		"$section_topic": "Text Formatting"
+	},
+	"section_1@how_to_play_common.main_sections": {
+		"bindings": [
+			{
+				"binding_type": "view",
+				"source_control_name": "Text Formatting_button_toggle",
+				"source_property_name": "#toggle_state",
+				"target_property_name": "#visible"
+			}
+		],
+		"controls": [
+			{
+				"header_5@how_to_play_common.header": {
+					"$text": "Text Formatting "
+				}
+			},
+			{
+				"paragraph_6@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_7@how_to_play_common.paragraph": {
+					"$text": "§l§oBold Italic Text§r - ***Bold Italic Text*** ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_8@how_to_play_common.paragraph": {
+					"$text": "§lBold Text§r - **Bold Text** ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_9@how_to_play_common.paragraph": {
+					"$text": "§oItalic Text§r - *Italic Text* ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_10@how_to_play_common.paragraph": {
+					"$text": "Ignore formatting - `**Unformatted Text**` ",
+					"$text_alignment": "left"
+				}
+			}
+		]
+	},
+	"section_2_button@how_to_play_common.section_toggle_button": {
+		"$section_topic": "Images"
+	},
+	"section_2@how_to_play_common.main_sections": {
+		"bindings": [
+			{
+				"binding_type": "view",
+				"source_control_name": "Images_button_toggle",
+				"source_property_name": "#toggle_state",
+				"target_property_name": "#visible"
+			}
+		],
+		"controls": [
+			{
+				"header_11@how_to_play_common.header": {
+					"$text": "Images "
+				}
+			},
+			{
+				"paragraph_12@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"image_13@how_to_play_common.image": {
+					"texture": "textures/bridge"
+				}
+			},
+			{
+				"paragraph_14@how_to_play_common.paragraph": {
+					"$text": "§7§obridge nightly logo",
+					"$text_alignment": "center"
+				}
+			},
+			{
+				"padding_15@how_to_play_common.padding": {}
+			},
+			{
+				"paragraph_16@how_to_play_common.paragraph": {
+					"$text": "Images can be inserted using ![alt text](textures/path) ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_17@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_18@how_to_play_common.paragraph": {
+					"$text": "You do not need to include the file extension ",
+					"$text_alignment": "left"
+				}
+			}
+		]
+	},
+	"section_3_button@how_to_play_common.section_toggle_button": {
+		"$section_topic": "Emojis"
+	},
+	"section_3@how_to_play_common.main_sections": {
+		"bindings": [
+			{
+				"binding_type": "view",
+				"source_control_name": "Emojis_button_toggle",
+				"source_property_name": "#toggle_state",
+				"target_property_name": "#visible"
+			}
+		],
+		"controls": [
+			{
+				"header_19@how_to_play_common.header": {
+					"$text": "General Icons"
+				}
+			},
+			{
+				"paragraph_20@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_21@how_to_play_common.paragraph": {
+					"$text": " - :armor:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_22@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_23@how_to_play_common.paragraph": {
+					"$text": " - :food:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_24@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_25@how_to_play_common.paragraph": {
+					"$text": " - :minecoin:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_26@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_27@how_to_play_common.paragraph": {
+					"$text": " - :token:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_28@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_29@how_to_play_common.paragraph": {
+					"$text": " - :agent:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_30@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_31@how_to_play_common.paragraph": {
+					"$text": " - :immersive_reader:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_32@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_33@how_to_play_common.paragraph": {
+					"$text": " - :craft_toggle_on:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_34@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_35@how_to_play_common.paragraph": {
+					"$text": " - :craft_toggle_off:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_36@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_37@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"header_38@how_to_play_common.header": {
+					"$text": "Mobile Icons"
+				}
+			},
+			{
+				"paragraph_39@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_40@how_to_play_common.paragraph": {
+					"$text": " - :mobile_jump: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_41@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_42@how_to_play_common.paragraph": {
+					"$text": " - :mobile_crouch:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_43@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_44@how_to_play_common.paragraph": {
+					"$text": " - :mobile_fly_up:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_45@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_46@how_to_play_common.paragraph": {
+					"$text": " - :mobile_fly_down:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_47@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_48@how_to_play_common.paragraph": {
+					"$text": " - :mobile_left_arrow:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_49@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_50@how_to_play_common.paragraph": {
+					"$text": " - :mobile_right_arrow:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_51@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_52@how_to_play_common.paragraph": {
+					"$text": " - :mobile_up_arrow:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_53@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_54@how_to_play_common.paragraph": {
+					"$text": " - :mobile_down_arrow:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_55@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_56@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"header_57@how_to_play_common.header": {
+					"$text": "PC Icons"
+				}
+			},
+			{
+				"paragraph_58@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_59@how_to_play_common.paragraph": {
+					"$text": " - :pc_left_click:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_60@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_61@how_to_play_common.paragraph": {
+					"$text": " - :pc_right_click:  ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_62@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_63@how_to_play_common.paragraph": {
+					"$text": " - :pc_middle_click ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_64@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_65@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"header_66@how_to_play_common.header": {
+					"$text": "Xbox Icons "
+				}
+			},
+			{
+				"paragraph_67@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_68@how_to_play_common.paragraph": {
+					"$text": " - :xbox_y: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_69@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_70@how_to_play_common.paragraph": {
+					"$text": " - :xbox_b: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_71@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_72@how_to_play_common.paragraph": {
+					"$text": " - :xbox_a: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_73@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_74@how_to_play_common.paragraph": {
+					"$text": " - :xbox_x: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_75@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_76@how_to_play_common.paragraph": {
+					"$text": " - :xbox_back: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_77@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_78@how_to_play_common.paragraph": {
+					"$text": " - :xbox_start: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_79@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_80@how_to_play_common.paragraph": {
+					"$text": " - :xbox_lb: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_81@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_82@how_to_play_common.paragraph": {
+					"$text": " - :xbox_rb: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_83@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_84@how_to_play_common.paragraph": {
+					"$text": " - :xbox_lt: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_85@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_86@how_to_play_common.paragraph": {
+					"$text": " - :xbox_rt: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_87@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_88@how_to_play_common.paragraph": {
+					"$text": " - :xbox_ls: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_89@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_90@how_to_play_common.paragraph": {
+					"$text": " - :xbox_rs: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_91@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_92@how_to_play_common.paragraph": {
+					"$text": " - :xbox_d_pad_up: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_93@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_94@how_to_play_common.paragraph": {
+					"$text": " - :xbox_d_pad_right: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_95@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_96@how_to_play_common.paragraph": {
+					"$text": " - :xbox_d_pad_down: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_97@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_98@how_to_play_common.paragraph": {
+					"$text": " - :xbox_d_pad_left: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_99@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_100@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"header_101@how_to_play_common.header": {
+					"$text": "Nintendo Switch "
+				}
+			},
+			{
+				"paragraph_102@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_103@how_to_play_common.paragraph": {
+					"$text": " - :switch_x: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_104@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_105@how_to_play_common.paragraph": {
+					"$text": " - :switch_a: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_106@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_107@how_to_play_common.paragraph": {
+					"$text": " - :switch_b: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_108@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_109@how_to_play_common.paragraph": {
+					"$text": " - :switch_y: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_110@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_111@how_to_play_common.paragraph": {
+					"$text": " - :switch_+: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_112@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_113@how_to_play_common.paragraph": {
+					"$text": " - :switch_-: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_114@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_115@how_to_play_common.paragraph": {
+					"$text": " - :switch_l: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_116@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_117@how_to_play_common.paragraph": {
+					"$text": " - :switch_r: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_118@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_119@how_to_play_common.paragraph": {
+					"$text": " - :switch_zl: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_120@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_121@how_to_play_common.paragraph": {
+					"$text": " - :switch_rl: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_122@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_123@how_to_play_common.paragraph": {
+					"$text": " - :switch_l: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_124@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_125@how_to_play_common.paragraph": {
+					"$text": " - :switch_r: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_126@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_127@how_to_play_common.paragraph": {
+					"$text": " - :switch_d_pad_up: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_128@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_129@how_to_play_common.paragraph": {
+					"$text": " - :switch_d_pad_right: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_130@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_131@how_to_play_common.paragraph": {
+					"$text": " - :switch_d_pad_down: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_132@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_133@how_to_play_common.paragraph": {
+					"$text": " - :switch_d_pad_left: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_134@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_135@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"header_136@how_to_play_common.header": {
+					"$text": "PS4 / PS5 "
+				}
+			},
+			{
+				"paragraph_137@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_138@how_to_play_common.paragraph": {
+					"$text": " - :ps_triangle: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_139@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_140@how_to_play_common.paragraph": {
+					"$text": " - :ps_circle: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_141@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_142@how_to_play_common.paragraph": {
+					"$text": " - :ps_cross: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_143@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_144@how_to_play_common.paragraph": {
+					"$text": " - :ps_square: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_145@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_146@how_to_play_common.paragraph": {
+					"$text": " - :ps_options: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_147@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_148@how_to_play_common.paragraph": {
+					"$text": " - :ps_touch_pad: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_149@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_150@how_to_play_common.paragraph": {
+					"$text": " - :ps_l1: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_151@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_152@how_to_play_common.paragraph": {
+					"$text": " - :ps_r1: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_153@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_154@how_to_play_common.paragraph": {
+					"$text": " - :ps_l2: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_155@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_156@how_to_play_common.paragraph": {
+					"$text": " - :ps_r2: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_157@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_158@how_to_play_common.paragraph": {
+					"$text": " - :ps_l3: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_159@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_160@how_to_play_common.paragraph": {
+					"$text": " - :ps_r3: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_161@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_162@how_to_play_common.paragraph": {
+					"$text": " - :ps_d_pad_up: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_163@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_164@how_to_play_common.paragraph": {
+					"$text": " - :ps_d_pad_right: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_165@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_166@how_to_play_common.paragraph": {
+					"$text": " - :ps_d_pad_down: ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_167@how_to_play_common.paragraph": {
+					"$text": " ",
+					"$text_alignment": "left"
+				}
+			},
+			{
+				"paragraph_168@how_to_play_common.paragraph": {
+					"$text": "- :ps_d_pad_left: ",
+					"$text_alignment": "left"
+				}
+			}
+		]
+	}
+}

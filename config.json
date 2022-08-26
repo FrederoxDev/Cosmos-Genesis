@@ -1,15 +1,15 @@
 {
 	"type": "minecraftBedrock",
-	"name": "Cosmos Genesis",
-	"namespace": "bridge",
+	"name": "Cosmos",
+	"namespace": "cosmos",
 	"authors": [
 		"Frederox"
 	],
-	"targetVersion": "1.19.20",
+	"targetVersion": "1.19.30",
 	"description": "",
 	"experimentalGameplay": {
 		"holidayCreatorFeatures": true,
-		"creationOfCustomBiomes": false,
+		"creationOfCustomBiomes": true,
 		"upcomingCreatorFeatures": false,
 		"enableGameTestFramework": true,
 		"experimentalMolangFeatures": false,
@@ -37,7 +37,7 @@
 			[
 				"simpleRewrite",
 				{
-					"packName": "Cosmos Genesis"
+					"packName": "Cosmos"
 				}
 			]
 		]

@@ -1,32 +1,14 @@
 {
 	"num_mip_levels": 4,
 	"padding": 8,
-	"resource_pack_name": "Terrain Generation",
+	"resource_pack_name": "Cosmos",
 	"texture_name": "atlas.terrain",
 	"texture_data": {
-		"bridge_test_stone": {
-			"textures": "textures/blocks/test_stone"
+		"cosmos_frozen_roots0": {
+			"textures": "textures/blocks/frozen_roots0"
 		},
-		"bridge_thruster": {
-			"textures": "textures/blocks/thruster"
-		},
-		"bridge_rocket_controller": {
-			"textures": "textures/blocks/rocket_controller"
-		},
-		"bridge_rocket_plating": {
-			"textures": "textures/blocks/metal_sheet"
-		},
-		"bridge_cable": {
-			"textures": "textures/blocks/cable"
-		},
-		"bridge_powered_cable": {
-			"textures": "textures/blocks/powered_cable"
-		},
-		"bridge_testing_block": {
-			"textures": "textures/blocks/testing_block"
-		},
-		"bridge_solar_panel": {
-			"textures": "textures/blocks/solar_panel"
+		"cosmos_frozen_roots1": {
+			"textures": "textures/blocks/frozen_roots1"
 		}
 	}
 }

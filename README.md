@@ -23,7 +23,7 @@ Features all completed with documentation, posted to major sites
 - [ ] Change the actual biomes of the chunks
 
 # v0.2 Backend
-- [ ] Data serlialization
+- [x] Data serlialization
 - [ ] Player data & tracking planets
 - [ ] Player death
 - [ ] Custom rocket animation system

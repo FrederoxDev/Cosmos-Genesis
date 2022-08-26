@@ -2,14 +2,14 @@
 	"format_version": 2,
 	"metadata": {
 		"authors": [
-			""
+			"Frederox"
 		],
 		"generated_with": {
 			"bridge": [
-				"2.3.0"
+				"2.3.2"
 			],
 			"dash": [
-				"0.9.26"
+				"0.9.28"
 			]
 		}
 	},
@@ -21,7 +21,7 @@
 			19,
 			20
 		],
-		"uuid": "accd7941-1dd5-44ca-869f-ac5193e7c7a3",
+		"uuid": "ff2eb025-513e-47b4-8688-76347d88b58a",
 		"version": [
 			1,
 			0,
@@ -31,7 +31,7 @@
 	"modules": [
 		{
 			"type": "resources",
-			"uuid": "62836a05-2da3-4442-b033-a7cce9ef04eb",
+			"uuid": "fef3eb17-b445-46f0-8d0d-0e3ccff6ed7f",
 			"version": [
 				1,
 				0,

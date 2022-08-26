@@ -4,29 +4,7 @@
 		1,
 		0
 	],
-	"bridge:test_stone": {
-		"textures": "bridge_test_stone",
+	"cosmos:frozen_roots": {
 		"sound": "stone"
-	},
-	"bridge:thruster": {
-		"sound": "stone"
-	},
-	"bridge:rocket_controller": {
-		"sound": "stone"
-	},
-	"bridge:rocket_plating": {
-		"sound": "stone",
-		"textures": "bridge_rocket_plating"
-	},
-	"bridge:cable": {
-		"sound": "stone"
-	},
-	"bridge:testing_block": {
-		"sound": "stone",
-		"textures": "bridge_testing_block"
-	},
-	"bridge:solar_panel": {
-		"sound": "stone",
-		"textures": "bridge_solar_panel"
 	}
 }

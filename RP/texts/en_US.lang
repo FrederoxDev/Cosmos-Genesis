@@ -1,12 +1,3 @@
-pack.name=Cosmos Genesis RP
-pack.description=
-
-tile.bridge:rocket_controller.name=Rocket Controller
-tile.bridge:thruster.name=Thruster
-tile.bridge:rocket_plating.name=Rocket Plating
-
-tile.bridge:solar_panel.name=Solar Panel
-tile.bridge:cable.name=Cable
-
-item.spawn_egg.entity.bridge:rocket.name=Spawn Rocket
-entity.bridge:rocket.name=Rocket
+pack.name=Cosmos RP
+pack.description=A space addon!
+tile.cosmos:frozen_roots.name=Frozen Roots

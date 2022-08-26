@@ -6,10 +6,10 @@
 		],
 		"generated_with": {
 			"bridge": [
-				"2.3.0"
+				"2.3.2"
 			],
 			"dash": [
-				"0.9.26"
+				"0.9.28"
 			]
 		}
 	},
@@ -19,9 +19,9 @@
 		"min_engine_version": [
 			1,
 			19,
-			0
+			20
 		],
-		"uuid": "52e3ca5c-c9e6-44a8-8f57-59ee9d6237c4",
+		"uuid": "1881a61c-30d6-46a1-bc3c-f4c9e943aa5b",
 		"version": [
 			1,
 			0,
@@ -31,7 +31,7 @@
 	"modules": [
 		{
 			"type": "data",
-			"uuid": "c1441f9e-f60f-47f4-9184-4962ff679d5c",
+			"uuid": "df903eae-9a1c-4a73-890d-ec2f64acc71b",
 			"version": [
 				1,
 				0,
@@ -41,7 +41,7 @@
 		{
 			"type": "script",
 			"language": "javascript",
-			"uuid": "b0c3d844-3479-42a7-94ac-4df7a11997d0",
+			"uuid": "824fa3e1-9053-4267-a54f-4a2985c77654",
 			"entry": "scripts/Main.js",
 			"version": [
 				1,

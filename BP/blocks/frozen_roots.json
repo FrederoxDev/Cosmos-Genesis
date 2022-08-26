@@ -1,0 +1,151 @@
+{
+	"format_version": "1.19.30",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:frozen_roots",
+			"is_experimental": false,
+			"properties": {
+				"cosmos:texture": [
+					0,
+					1
+				],
+				"cosmos:model": [
+					0,
+					1,
+					2,
+					3
+				]
+			}
+		},
+		"permutations": [
+			{
+				"condition": "query.block_property('cosmos:texture') == 0",
+				"components": {
+					"minecraft:material_instances": {
+						"*": {
+							"texture": "cosmos_frozen_roots0",
+							"render_method": "alpha_test"
+						}
+					}
+				}
+			},
+			{
+				"condition": "query.block_property('cosmos:texture') == 1",
+				"components": {
+					"minecraft:material_instances": {
+						"*": {
+							"texture": "cosmos_frozen_roots1",
+							"render_method": "alpha_test"
+						}
+					}
+				}
+			},
+			{
+				"condition": "query.block_property('cosmos:model') == 0",
+				"components": {
+					"minecraft:geometry": "geometry.frozen_roots0"
+				}
+			},
+			{
+				"condition": "query.block_property('cosmos:model') == 1",
+				"components": {
+					"minecraft:geometry": "geometry.frozen_roots1"
+				}
+			},
+			{
+				"condition": "query.block_property('cosmos:model') == 2",
+				"components": {
+					"minecraft:geometry": "geometry.frozen_roots2"
+				}
+			},
+			{
+				"condition": "query.block_property('cosmos:model') == 3",
+				"components": {
+					"minecraft:geometry": "geometry.frozen_roots3"
+				}
+			}
+		],
+		"components": {
+			"minecraft:collision_box": false,
+			"minecraft:selection_box": {
+				"size": [
+					10,
+					8,
+					10
+				],
+				"origin": [
+					-5,
+					0,
+					-5
+				]
+			},
+			"minecraft:breathability": "air",
+			"minecraft:block_light_filter": 0,
+			"minecraft:on_placed": {
+				"event": "cosmos:on_placed"
+			},
+			"minecraft:placement_filter": {
+				"conditions": [
+					{
+						"allowed_faces": [
+							"up"
+						],
+						"block_filter": [
+							"snow"
+						]
+					}
+				]
+			}
+		},
+		"events": {
+			"cosmos:on_placed": {
+				"randomize": [
+					{
+						"trigger": "cosmos:randomise_model"
+					},
+					{
+						"trigger": "cosmos:randomise_texture"
+					}
+				]
+			},
+			"cosmos:randomise_texture": {
+				"randomize": [
+					{
+						"set_block_property": {
+							"cosmos:texture": 0
+						}
+					},
+					{
+						"set_block_property": {
+							"cosmos:texture": 1
+						}
+					}
+				]
+			},
+			"cosmos:randomise_model": {
+				"randomize": [
+					{
+						"set_block_property": {
+							"cosmos:model": 0
+						}
+					},
+					{
+						"set_block_property": {
+							"cosmos:model": 1
+						}
+					},
+					{
+						"set_block_property": {
+							"cosmos:model": 2
+						}
+					},
+					{
+						"set_block_property": {
+							"cosmos:model": 3
+						}
+					}
+				]
+			}
+		}
+	}
+}

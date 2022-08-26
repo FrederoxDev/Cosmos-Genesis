@@ -1,7 +1,7 @@
 {
-  "tasks": {
-    "setup": "deno install -A -n dash_compiler https://deno.land/x/dash_compiler/mod.ts",
-    "watch": "dash_compiler build --m development --o preview && dash_compiler watch --m development --o preview",
-    "build": "dash_compiler build"
-  } 
+	"tasks": {
+		"install_dash": "deno install -A --reload -f -n dash_compiler https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/main/mod.ts",
+		"watch": "dash_compiler watch --o preview",
+		"build": "dash_compiler build --o preview"
+	}
 }
