@@ -16,8 +16,15 @@ Features all completed with documentation, posted to major sites
 - [x] Basic chunks
 - [x] Control height of terrain with heightmap
 - [x] Biome Generation
-- [ ] Flora Features
+- [x] Flora Features
 - [ ] Tree Features
 - [ ] Ore Features
 - [x] Read generation data from .json files
 - [ ] Change the actual biomes of the chunks
+
+# v0.2 Backend
+- [ ] Text localization system
+- [ ] Data serlialization
+- [ ] Player data & tracking planets
+- [ ] Player death
+- [ ] Custom rocket animation system
