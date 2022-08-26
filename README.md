@@ -24,6 +24,6 @@ Features all completed with documentation, posted to major sites
 
 # v0.2 Backend
 - [x] Data serlialization
-- [ ] Player data & tracking planets
-- [ ] Player death
+- [x] Player data & tracking planets
+- [x] Player death
 - [ ] Custom rocket animation system

@@ -37,3 +37,7 @@ export const Data = {
         world.setDynamicProperty("data", JSON.stringify(data))
     }
 }
+
+export function RandInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
