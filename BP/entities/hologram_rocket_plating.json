@@ -1,0 +1,39 @@
+{
+	"format_version": "1.19.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "cosmos:hologram_rocket_plating",
+			"is_summonable": true
+		},
+		"component_groups": {
+			"cosmos:instant_despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:timer": {
+				"time": 5,
+				"time_down_event": {
+					"event": "despawn"
+				}
+			},
+			"minecraft:physics": {
+				"has_collision": false,
+				"has_gravity": false
+			},
+			"minecraft:collision_box": {
+				"width": 0,
+				"height": 0
+			}
+		},
+		"events": {
+			"despawn": {
+				"add": {
+					"component_groups": [
+						"cosmos:instant_despawn"
+					]
+				}
+			}
+		}
+	}
+}

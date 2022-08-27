@@ -1,0 +1,24 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "cosmos:hologram_rocket_plating",
+			"materials": {
+				"default": "entity_alphatest"
+			},
+			"textures": {
+				"default": "textures/entity/hologram_rocket_plating"
+			},
+			"geometry": {
+				"default": "geometry.hologram_rocket_plating"
+			},
+			"render_controllers": [
+				"controller.render.hologram_rocket_plating"
+			],
+			"spawn_egg": {
+				"base_color": "#000000",
+				"overlay_color": "#FFFFFF"
+			}
+		}
+	}
+}

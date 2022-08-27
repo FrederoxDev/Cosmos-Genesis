@@ -1,0 +1,56 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:rocket_controller",
+			"is_experimental": false,
+		},
+		"components": {
+			"minecraft:geometry": "geometry.rocket_controller",
+			"minecraft:material_instances": {
+				"*": {
+					"texture": "cosmos_rocket_controller",
+					"render_method": "alpha_test"
+				}
+			},
+			"minecraft:pick_collision": {
+				"origin": [
+					-8,
+					0,
+					-8
+				],
+				"size": [
+					16,
+					16,
+					16
+				]
+			},
+			"minecraft:entity_collision": {
+				"origin": [
+					-8,
+					0,
+					-8
+				],
+				"size": [
+					16,
+					16,
+					16
+				]
+			},
+			"minecraft:block_light_absorption": 0,
+			"minecraft:breathability": "air",
+			"minecraft:on_interact": {
+				"event": "cosmos:on_interact",
+				"condition": "query.is_sneaking",
+				"target": "other"
+			},
+			"bridge:rotate_y_on_place": {
+				"flip": true
+			}
+		},
+		"events": {
+			// Event is caught by the Cosmos Engine
+			"cosmos:on_interact": {}
+		}
+	}
+}

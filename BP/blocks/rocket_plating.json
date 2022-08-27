@@ -1,0 +1,9 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:rocket_plating"
+		},
+		"components": {}
+	}
+}

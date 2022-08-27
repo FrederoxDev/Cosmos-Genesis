@@ -1,8 +1,9 @@
-export interface PlayerData {
+	export interface PlayerData {
     name: string,
     earthLocation: {
         x: number,
         z: number
     },
-    planet: string
+    planet: string,
+    isTravelling: boolean
 }

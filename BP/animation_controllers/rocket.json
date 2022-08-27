@@ -1,0 +1,27 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.rocket": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"has_rider": "query.has_rider"
+						}
+					]
+				},
+				"has_rider": {
+					"on_entry": [
+						"/event entity @s cosmos:on_rider_detected"
+					],
+					"transitions": [
+						{
+							"default": "!query.has_rider"
+						}
+					]
+				}
+			}
+		}
+	}
+}

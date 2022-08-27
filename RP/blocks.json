@@ -6,5 +6,8 @@
 	],
 	"cosmos:frozen_roots": {
 		"sound": "stone"
+	},
+	"cosmos:rocket_plating": {
+		"textures": "cosmos_rocket_plating"
 	}
 }

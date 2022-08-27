@@ -6,7 +6,7 @@ world.events.playerJoin.subscribe(e => {
     var playerData = JSON.parse(Data.GetKey("playerData"))
     var index = playerData.findIndex(playerData => playerData.name == e.player.name)
     if (index == -1) playerData.push(
-        { name: e.player.name, earthLocation: { x: 0, z: 0 }, planet: "Earth" }
+        { name: e.player.name, earthLocation: { x: 0, z: 0 }, planet: "Earth", isTravelling: false }
     )
 
     Data.SetKey("playerData", JSON.stringify(playerData))

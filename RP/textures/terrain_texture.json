@@ -9,6 +9,15 @@
 		},
 		"cosmos_frozen_roots1": {
 			"textures": "textures/blocks/frozen_roots1"
+		},
+		"cosmos_thruster": {
+			"textures": "textures/blocks/thruster"
+		},
+		"cosmos_rocket_controller": {
+			"textures": "textures/blocks/rocket_controller"
+		},
+		"cosmos_rocket_plating": {
+			"textures": "textures/blocks/metal_sheet"
 		}
 	}
 }

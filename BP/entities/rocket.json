@@ -1,0 +1,52 @@
+{
+	"format_version": "1.16.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "cosmos:rocket",
+			"is_summonable": true,
+			"is_spawnable": true,
+			"animations": {
+				"rocket": "controller.animation.rocket"
+			},
+			"scripts": {
+				"animate": [
+					"rocket"
+				]
+			}
+		},
+		"component_groups": {},
+		"components": {
+			"minecraft:rideable": {
+				"seats": [
+					{
+						"position": [
+							0,
+							2.5,
+							0
+						]
+					}
+				]
+			},
+			"minecraft:physics": {
+				"has_collision": true,
+				"has_gravity": false
+			},
+			"minecraft:collision_box": {
+				"height": 6,
+				"width": 1
+			},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "fall",
+						"deals_damage": false
+					}
+				]
+			}
+		},
+		"events": {
+			// Caught by GameTest
+			"cosmos:on_rider_detected": {}
+		}
+	}
+}

@@ -1,4 +1,4 @@
-import { DynamicPropertiesDefinition, world } from "mojang-minecraft"
+import { DynamicPropertiesDefinition, Location, world } from "mojang-minecraft"
 
 world.events.worldInitialize.subscribe((e) => {
     const def = new DynamicPropertiesDefinition()
@@ -20,6 +20,14 @@ world.events.beforeChat.subscribe(e => {
     else if (e.message.toLowerCase() == "!rawdata") {
         var data = Data.Raw()
         e.message = "\n" + JSON.stringify(data, null, 4)
+    }
+
+    else if (e.message.toLowerCase() == "!playerdata reset") {
+        var playerData = JSON.parse(Data.GetKey("playerData"))
+        var index = playerData.findIndex(playerData => playerData.name == e.sender.name)
+
+        playerData[index] = { name: e.sender.name, earthLocation: { x: 0, z: 0 }, planet: "Earth", isTravelling: false }
+        Data.SetKey("playerData", JSON.stringify(playerData))
     }
 })
 
@@ -62,4 +70,8 @@ export const Data = {
 
 export function RandInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+export function OffsetLocation(a: Location, b: Location): Location {
+    return new Location(a.x + b.x, a.y + b.y, a.z + b.z)
 }

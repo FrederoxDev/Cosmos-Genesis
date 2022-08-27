@@ -28,13 +28,13 @@ Features all completed with documentation, posted to major sites
 - [x] Player data & tracking planets
 - [x] Player death
 - [x] Debug Commands
-- [ ] Custom rocket animation system
+- [x] Custom rocket animation system
 - [x] Launch & Landing locations
 
 # v0.3 Rocket
-- [ ] Rocket Blocks
-- [ ] Hologram entities
+- [x] Rocket Blocks
+- [x] Hologram entities
 - [ ] Structure Data
 - [ ] Click to construct
-- [ ] Trigger planet selection 
-- [ ] Launch Animation
+- [x] Trigger planet selection 
+- [x] Launch Animation
