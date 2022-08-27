@@ -9,6 +9,20 @@ world.events.worldInitialize.subscribe((e) => {
     e.propertyRegistry.registerWorldDynamicProperties(def);
 })
 
+world.events.beforeChat.subscribe(e => {
+    if (e.message.toLowerCase() == "!playerdata") {
+        var playerData = JSON.parse(Data.GetKey("playerData"))
+        var index = playerData.findIndex(playerData => playerData.name == e.sender.name)
+
+        e.message = "\n" + JSON.stringify(playerData[index], null, 4)
+    }
+
+    else if (e.message.toLowerCase() == "!rawdata") {
+        var data = Data.Raw()
+        e.message = "\n" + JSON.stringify(data, null, 4)
+    }
+})
+
 export const Debug = {
     log: (msg): void => {
         console.warn(msg)
@@ -35,6 +49,14 @@ export const Data = {
 
         data[key] = value
         world.setDynamicProperty("data", JSON.stringify(data))
+    },
+
+    Raw: (): any => {
+        var data: any = world.getDynamicProperty("data");
+        if (data == undefined) data = {}
+        else data = JSON.parse(data)
+
+        return data
     }
 }
 

@@ -16,6 +16,7 @@ Features all completed with documentation, posted to major sites
 - [x] Basic chunks
 - [x] Control height of terrain with heightmap
 - [x] Biome Generation
+- [ ] Spline Curves
 - [x] Flora Features
 - [ ] Tree Features
 - [ ] Ore Features
@@ -26,4 +27,14 @@ Features all completed with documentation, posted to major sites
 - [x] Data serlialization
 - [x] Player data & tracking planets
 - [x] Player death
+- [x] Debug Commands
 - [ ] Custom rocket animation system
+- [x] Launch & Landing locations
+
+# v0.3 Rocket
+- [ ] Rocket Blocks
+- [ ] Hologram entities
+- [ ] Structure Data
+- [ ] Click to construct
+- [ ] Trigger planet selection 
+- [ ] Launch Animation
