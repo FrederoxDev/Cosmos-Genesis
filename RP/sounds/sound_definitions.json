@@ -1,4 +1,11 @@
 {
 	"format_version": "1.14.0",
-	"sound_definitions": {}
+	"sound_definitions": {
+		"air_fill": {
+			"category": "block",
+			"sounds": [
+				"sounds/air_fill"
+			]
+		}
+	}
 }

@@ -5,12 +5,20 @@
 			"identifier": "cosmos:oxygen_charger"
 		},
 		"components": {
+			"minecraft:on_placed": {
+				"event": "cosmos:on_placed"
+			},
 			"minecraft:on_interact": {
 				"event": "cosmos:on_interact"
 			}
 		},
 		"events": {
-			"cosmos:on_interact": {}
+			"cosmos:on_interact": {},
+			"cosmos:on_placed": {
+				"run_command": {
+					"command": "/tellraw @p {\"rawtext\":[{\"translate\":\"block.tips.oxygen_charger\"}]}"
+				}
+			}
 		}
 	}
 }

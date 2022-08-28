@@ -3,6 +3,8 @@ import { Data, Debug } from "./Utility"
 import { PlayerData } from "./Classes/PlayerData"
 import { BaseBlocks } from "./Classes/BaseBlocks";
 
+const tankCapacity = 120
+
 world.events.beforeItemUseOn.subscribe(e => {
     const location = e.blockLocation;
     const overworld = world.getDimension("overworld");
@@ -11,12 +13,43 @@ world.events.beforeItemUseOn.subscribe(e => {
     if (e.item == undefined || e.item.id != "cosmos:oxygen_tank") return;
 
     const item = e.item
-    item.setLore(["Oxygen: 15 / 15"])
+    item.setLore([`Oxygen: ${tankCapacity} / ${tankCapacity}`])
+    item.getComponent("durability").damage = 1
 
     const player = <Player>e.source;
     const inventory = (<EntityInventoryComponent>player.getComponent("inventory")).container
 
     inventory.setItem(player.selectedSlot, item)
+    player.playSound("air_fill")
+})
+
+var baseCooldown = new Date().getTime()
+
+world.events.beforeItemUseOn.subscribe(e => {
+    const location = e.blockLocation;
+    const overworld = world.getDimension("overworld");
+
+    if (overworld.getBlock(location).id != "cosmos:base_controller") return;
+    if (new Date().getTime() - baseCooldown < 5) return;
+
+    //@ts-ignore
+    (<Player>e.source).playSound("fall.amethyst_block", { volume: 12 })
+
+    //@ts-ignore
+    const baseEntity = Array.from(world.getDimension("overworld").getEntities({
+        location: e.source.location,
+        type: "cosmos:base_bounds",
+        closest: 1
+    }))[0]
+
+    if (baseEntity != undefined) {
+        baseEntity.teleport(new Location(0, 320, 0), world.getDimension("overworld"), 0, 0)
+        baseEntity.kill()
+        return;
+    }
+
+    baseCooldown = new Date().getTime()
+    world.getDimension("overworld").spawnEntity("cosmos:base_bounds", location)
 })
 
 world.events.blockPlace.subscribe(e => {
@@ -31,6 +64,8 @@ world.events.blockPlace.subscribe(e => {
     }
     else baseBlocks[index] = { x: location.x, y: location.y, z: location.z }
 
+    e.player.runCommand("tellraw @s {\"rawtext\":[{\"translate\":\"block.tips:base_controller\"}]}")
+
     Data.SetKey("baseBlocks", JSON.stringify(baseBlocks))
 })
 
@@ -43,6 +78,19 @@ world.events.blockBreak.subscribe(e => {
 
     if (baseBlocks.length == 1) baseBlocks = []
     else baseBlocks = baseBlocks.slice(index)
+
+    const baseEntity = Array.from(world.getDimension("overworld").getEntities({
+        //@ts-ignore
+        location: e.block.location,
+        type: "cosmos:base_bounds",
+        closest: 1
+    }))[0]
+
+    if (baseEntity != undefined) {
+        baseEntity.teleport(new Location(0, 320, 0), world.getDimension("overworld"), 0, 0)
+        baseEntity.kill()
+        return;
+    }
 
     Data.SetKey("baseBlocks", JSON.stringify(baseBlocks))
 })
@@ -88,10 +136,10 @@ world.events.tick.subscribe(e => {
             const item = inventory.getItem(i)
             if (item == null || item.id != "cosmos:oxygen_tank") continue
 
-            maxOxygen += 15;
+            maxOxygen += tankCapacity;
 
             if (item.getLore()[0] == undefined) {
-                item.setLore([`Oxygen: 0 / 15`])
+                item.setLore([`Oxygen: 0 / ${tankCapacity}`])
                 inventory.setItem(i, item)
                 continue
             }
@@ -103,7 +151,9 @@ world.events.tick.subscribe(e => {
             if (hasOxygen) continue;
 
             hasOxygen = true
-            item.setLore([`Oxygen: ${durability - 1} / 15`])
+            item.setLore([`Oxygen: ${durability - 1} / ${tankCapacity}`])
+            item.getComponent("durability").damage = tankCapacity + 1 - durability
+
             currentOxygen -= 1
             inventory.setItem(i, item)
         }

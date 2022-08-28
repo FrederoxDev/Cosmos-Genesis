@@ -46,3 +46,4 @@ Features all completed with documentation, posted to major sites
 - [x] Oxygen Tank Charger
 - [x] Base Controllers
 - [x] Preserve Oxygen In Bases
+- [x] Base Boundry Preview

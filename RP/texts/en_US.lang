@@ -1,6 +1,15 @@
 pack.name=Cosmos RP
 pack.description=A space addon!
-tile.cosmos:frozen_roots.name=Frozen Roots
+
+block.tips:base_controller=§6[TIP] Interact with Base Controller to show the bounds of the base
+block.tips.oxygen_charger=§6[TIP] Interact with this block holding an Oxygen Tank to fill it with oxygen
+
+tile.cosmos:rocket_controller.name=Rocket Controller
+tile.cosmos:thruster.name=Rocket Thruster
+tile.cosmos:rocket_plating.name=Rocket Plating
+
 item.cosmos:oxygen_tank=Oxygen Tank
 tile.cosmos:oxygen_charger.name=Oxygen Charger
 tile.cosmos:base_controller.name=Base Controller
+
+tile.cosmos:frozen_roots.name=Frozen Roots

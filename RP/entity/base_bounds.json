@@ -2,18 +2,18 @@
 	"format_version": "1.10.0",
 	"minecraft:client_entity": {
 		"description": {
-			"identifier": "cosmos:hologram_glass",
+			"identifier": "cosmos:base_bounds",
 			"materials": {
-				"default": "entity_alphablend"
+				"default": "glow_squid"
 			},
 			"textures": {
-				"default": "textures/entity/hologram_stained_glass"
+				"default": "textures/entity/base_bounds"
 			},
 			"geometry": {
-				"default": "geometry.hologram_stained_glass"
+				"default": "geometry.base_bounds"
 			},
 			"render_controllers": [
-				"controller.render.hologram_stained_glass"
+				"controller.render.base_bounds"
 			],
 			"spawn_egg": {
 				"base_color": "#000000",
