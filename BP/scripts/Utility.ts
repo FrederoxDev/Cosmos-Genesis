@@ -1,4 +1,4 @@
-import { DynamicPropertiesDefinition, Location, world } from "mojang-minecraft"
+import { DynamicPropertiesDefinition, EntityInventoryComponent, Location, world } from "mojang-minecraft"
 
 world.events.worldInitialize.subscribe((e) => {
     const def = new DynamicPropertiesDefinition()
@@ -28,6 +28,18 @@ world.events.beforeChat.subscribe(e => {
 
         playerData[index] = { name: e.sender.name, earthLocation: { x: 0, z: 0 }, planet: "Earth", isTravelling: false }
         Data.SetKey("playerData", JSON.stringify(playerData))
+    }
+
+    else if (e.message.toLowerCase() == "!oxygen") {
+        const inventory = (<EntityInventoryComponent>e.sender.getComponent("inventory")).container
+
+        for (var i = 0; i < inventory.size; i++) {
+            const item = inventory.getItem(i)
+            if (item == null || item.id != "cosmos:oxygen_tank") continue
+
+            item.setLore([`Oxygen: 15 / 15`])
+            inventory.setItem(i, item)
+        }
     }
 })
 

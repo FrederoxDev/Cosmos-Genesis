@@ -30,11 +30,19 @@ Features all completed with documentation, posted to major sites
 - [x] Debug Commands
 - [x] Custom rocket animation system
 - [x] Launch & Landing locations
+- [ ] Text Localization
 
 # v0.3 Rocket
 - [x] Rocket Blocks
 - [x] Hologram entities
-- [ ] Structure Data
-- [ ] Click to construct
+- [x] Structure Data
+- [x] Click to construct
 - [x] Trigger planet selection 
 - [x] Launch Animation
+
+# v0.4 Oxygen & Bases
+- [x] Oxygen Counter
+- [x] Oxygen Tanks
+- [ ] Oxygen Tank Charger
+- [ ] Base Controllers
+- [ ] Preserve Oxygen In Bases

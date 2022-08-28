@@ -1,5 +1,9 @@
 {
 	"resource_pack_name": "Cosmos",
 	"texture_name": "atlas.items",
-	"texture_data": {}
+	"texture_data": {
+		"cosmos_oxygen_tank": {
+			"textures": "textures/items/oxygen_tank"
+		}
+	}
 }
