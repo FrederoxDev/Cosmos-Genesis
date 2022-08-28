@@ -1,0 +1,16 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:oxygen_charger"
+		},
+		"components": {
+			"minecraft:on_interact": {
+				"event": "cosmos:on_interact"
+			}
+		},
+		"events": {
+			"cosmos:on_interact": {}
+		}
+	}
+}

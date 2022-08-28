@@ -18,6 +18,12 @@
 		},
 		"cosmos_rocket_plating": {
 			"textures": "textures/blocks/metal_sheet"
+		},
+		"cosmos_oxygen_charger": {
+			"textures": "textures/blocks/oxygen_charger_side"
+		},
+		"cosmos_base_controller": {
+			"textures": "textures/blocks/base_controller"
 		}
 	}
 }

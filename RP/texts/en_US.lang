@@ -2,3 +2,5 @@ pack.name=Cosmos RP
 pack.description=A space addon!
 tile.cosmos:frozen_roots.name=Frozen Roots
 item.cosmos:oxygen_tank=Oxygen Tank
+tile.cosmos:oxygen_charger.name=Oxygen Charger
+tile.cosmos:base_controller.name=Base Controller

@@ -5,9 +5,26 @@
 		0
 	],
 	"cosmos:frozen_roots": {
-		"sound": "stone"
+		"sound": "grass"
 	},
 	"cosmos:rocket_plating": {
-		"textures": "cosmos_rocket_plating"
+		"textures": "cosmos_rocket_plating",
+		"sound": "metal"
+	},
+	"cosmos:oxygen_charger": {
+		"sound": "metal",
+		"textures": {
+			"side": "cosmos_oxygen_charger",
+			"up": "cosmos_rocket_plating",
+			"down": "cosmos_rocket_plating"
+		}
+	},
+	"cosmos:base_controller": {
+		"sound": "metal",
+		"textures": {
+			"side": "cosmos_base_controller",
+			"up": "cosmos_rocket_plating",
+			"down": "cosmos_rocket_plating"
+		}
 	}
 }

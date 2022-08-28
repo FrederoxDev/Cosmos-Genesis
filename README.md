@@ -43,6 +43,6 @@ Features all completed with documentation, posted to major sites
 # v0.4 Oxygen & Bases
 - [x] Oxygen Counter
 - [x] Oxygen Tanks
-- [ ] Oxygen Tank Charger
-- [ ] Base Controllers
-- [ ] Preserve Oxygen In Bases
+- [x] Oxygen Tank Charger
+- [x] Base Controllers
+- [x] Preserve Oxygen In Bases

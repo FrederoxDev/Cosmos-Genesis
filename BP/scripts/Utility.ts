@@ -17,6 +17,15 @@ world.events.beforeChat.subscribe(e => {
         e.message = "\n" + JSON.stringify(playerData[index], null, 4)
     }
 
+    else if (e.message.toLowerCase() == "!basedata") {
+        var baseBlocks = JSON.parse(Data.GetKey("baseBlocks"))
+        e.message = "\n" + JSON.stringify(baseBlocks, null, 4)
+    }
+
+    else if (e.message.toLowerCase() == "!basedata reset") {
+        Data.SetKey("baseBlocks", JSON.stringify([]))
+    }
+
     else if (e.message.toLowerCase() == "!rawdata") {
         var data = Data.Raw()
         e.message = "\n" + JSON.stringify(data, null, 4)
