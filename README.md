@@ -18,7 +18,8 @@ Features all completed with documentation, posted to major sites
 - [x] Biome Generation
 - [ ] Spline Curves
 - [x] Flora Features
-- [ ] Tree Features
+- [x] Tree Features
+- [ ] River / Water
 - [ ] Ore Features
 - [x] Read generation data from .json files
 - [ ] Change the actual biomes of the chunks
@@ -47,3 +48,8 @@ Features all completed with documentation, posted to major sites
 - [x] Base Controllers
 - [x] Preserve Oxygen In Bases
 - [x] Base Boundry Preview
+
+# v0.5 Start Planet Content
+- [ ] Make colour pallette
+- [ ] Frozen Stone
+- [ ] Grass
