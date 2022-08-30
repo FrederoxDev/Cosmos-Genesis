@@ -3,7 +3,7 @@ import { Data } from "./Utility"
 
 // If the player has not joined before, setup default playerData
 world.events.playerJoin.subscribe(e => {
-    var playerData = JSON.parse(Data.GetKey("playerData"))
+    var playerData = JSON.parse(Data.GetKey("playerData") || "[]")
     var index = playerData.findIndex(playerData => playerData.name == e.player.name)
     if (index == -1) playerData.push(
         { name: e.player.name, earthLocation: { x: 0, z: 0 }, planet: "Earth", isTravelling: false }
