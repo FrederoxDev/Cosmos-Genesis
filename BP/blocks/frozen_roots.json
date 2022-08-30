@@ -91,7 +91,7 @@
 							"up"
 						],
 						"block_filter": [
-							"snow"
+							"cosmos:frozen_stone"
 						]
 					}
 				]

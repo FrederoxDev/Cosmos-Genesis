@@ -1,0 +1,47 @@
+{
+	"format_version": "1.19.30",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:vine_plant_top"
+		},
+		"components": {
+			"minecraft:geometry": "geometry.plant_cross",
+			"minecraft:material_instances": {
+				"*": {
+					"render_method": "alpha_test",
+					"face_dimming": true,
+					"ambient_occlusion": true,
+					"texture": "cosmos_vine_plant_top"
+				}
+			},
+			"minecraft:light_emission": 3,
+			"minecraft:breathability": "air",
+			"minecraft:collision_box": false,
+			"minecraft:block_light_filter": 0,
+			"minecraft:selection_box": {
+				"size": [
+					10,
+					13,
+					10
+				],
+				"origin": [
+					-5,
+					0,
+					-5
+				]
+			},
+			"minecraft:placement_filter": {
+				"conditions": [
+					{
+						"allowed_faces": [
+							"up"
+						],
+						"block_filter": [
+							"cosmos:vine_planet_mid"
+						]
+					}
+				]
+			}
+		}
+	}
+}

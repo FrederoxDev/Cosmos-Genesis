@@ -26,5 +26,26 @@
 			"up": "cosmos_rocket_plating",
 			"down": "cosmos_rocket_plating"
 		}
+	},
+	"cosmos:frozen_stone": {
+		"sound": "stone",
+		"textures": "cosmos_frozen_stone"
+	},
+	"cosmos:frozen_stone_grass": {
+		"sound": "stone",
+		"textures": {
+			"up": "cosmos_frozen_stone_grass_top",
+			"side": "cosmos_frozen_stone_grass_side",
+			"down": "cosmos_frozen_stone"
+		}
+	},
+	"cosmos:vine_planet_mid": {
+		"sound": "grass"
+	},
+	"cosmos:vine_plant_top": {
+		"sound": "grass"
+	},
+	"cosmos:shrub": {
+		"sound": "grass"
 	}
 }

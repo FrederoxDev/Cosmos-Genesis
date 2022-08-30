@@ -13,3 +13,7 @@ tile.cosmos:oxygen_charger.name=Oxygen Charger
 tile.cosmos:base_controller.name=Base Controller
 
 tile.cosmos:frozen_roots.name=Frozen Roots
+tile.cosmos:frozen_stone.name=Frozen Stone
+tile.cosmos:frozen_stone_grass.name=Frozen Stone Grass
+tile.cosmos:vine_planet_mid.name=Vine Plant
+tile.cosmos:vine_plant_top.name=Vine Plant

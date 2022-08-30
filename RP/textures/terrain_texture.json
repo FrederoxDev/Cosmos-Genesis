@@ -24,6 +24,24 @@
 		},
 		"cosmos_base_controller": {
 			"textures": "textures/blocks/base_controller"
+		},
+		"cosmos_frozen_stone": {
+			"textures": "textures/blocks/frozen_stone"
+		},
+		"cosmos_frozen_stone_grass_side": {
+			"textures": "textures/blocks/frozen_stone_grass_side"
+		},
+		"cosmos_frozen_stone_grass_top": {
+			"textures": "textures/blocks/frozen_stone_grass_top"
+		},
+		"cosmos_vine_planet_mid": {
+			"textures": "textures/blocks/plant_mid"
+		},
+		"cosmos_vine_plant_top": {
+			"textures": "textures/blocks/plant_top"
+		},
+		"cosmos_shrub": {
+			"textures": "textures/blocks/shrub"
 		}
 	}
 }
