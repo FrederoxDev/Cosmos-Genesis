@@ -46,7 +46,7 @@ world.events.beforeChat.subscribe(e => {
             const item = inventory.getItem(i)
             if (item == null || item.id != "cosmos:oxygen_tank") continue
 
-            item.setLore([`Oxygen: 15 / 15`])
+            item.setLore([`Oxygen: 120 / 120`])
             inventory.setItem(i, item)
         }
     }

@@ -8,7 +8,6 @@ const K384 = new Planet("K384", 5000, 50)
 const planets = [Earth, K384]
 
 const transitionHeight = 100
-const speedHeight = 70
 
 world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
     if (e.id != "cosmos:on_rider_detected") return;
@@ -117,8 +116,14 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
             lastTimestamp = new Date().getTime()
             frameIndex++
 
-            player.runCommand("ride @s summon_ride cosmos:rocket")
-            player.runCommand("gamemode survival")
+            try {
+                player.runCommand("ride @s summon_ride cosmos:rocket")
+                player.runCommand("gamemode survival")
+            } catch (e) {
+                frameIndex = 6
+                Debug.log("Failed to summon rocket, it is likely chunks are still loading. Retrying")
+                continue
+            }
             continue
         }
 
@@ -134,14 +139,6 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
             }))[0];
 
             rocket.setVelocity(new Vector(0, -3, 0))
-            continue
-        }
-
-        if (frameIndex == 8 && rocket.location.y < speedHeight) {
-            lastTimestamp = new Date().getTime()
-            frameIndex++
-
-            rocket.setVelocity(new Vector(0, -1, 0))
             playing = false
             continue
         }

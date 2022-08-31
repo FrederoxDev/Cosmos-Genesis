@@ -166,6 +166,8 @@ world.events.tick.subscribe(e => {
         }
 
         player.onScreenDisplay.setActionBar("No Oxygen!")
-        player.runCommand("damage @s 2")
+        try {
+            player.runCommand("damage @s 2")
+        } catch { }
     }
 })
