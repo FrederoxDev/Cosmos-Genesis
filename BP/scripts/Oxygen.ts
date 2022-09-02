@@ -1,4 +1,4 @@
-import { Player, world, EntityInventoryComponent, Location } from "mojang-minecraft"
+import { Player, world, EntityInventoryComponent, Location, Entity } from "mojang-minecraft"
 import { Data, Debug } from "./Utility"
 import { PlayerData } from "./Classes/PlayerData"
 import { BaseBlocks } from "./Classes/BaseBlocks";
@@ -26,30 +26,32 @@ world.events.beforeItemUseOn.subscribe(e => {
 var baseCooldown = new Date().getTime()
 
 world.events.beforeItemUseOn.subscribe(e => {
-    const location = e.blockLocation;
+    const bl = e.blockLocation;
+    const location = new Location(bl.x, bl.y, bl.z)
     const overworld = world.getDimension("overworld");
 
-    if (overworld.getBlock(location).id != "cosmos:base_controller") return;
+    if (overworld.getBlock(bl).id != "cosmos:base_controller") return;
     if (new Date().getTime() - baseCooldown < 5) return;
 
     //@ts-ignore
     (<Player>e.source).playSound("fall.amethyst_block", { volume: 12 })
 
     //@ts-ignore
-    const baseEntity = Array.from(world.getDimension("overworld").getEntities({
-        location: e.source.location,
+    const baseEntity: Entity = Array.from(world.getDimension("overworld").getEntities({
+        location: location,
         type: "cosmos:base_bounds",
         closest: 1
     }))[0]
 
-    if (baseEntity != undefined) {
+    //@ts-ignore
+    if (baseEntity != undefined && baseEntity.location.isNear(location, 2)) {
         baseEntity.teleport(new Location(0, 320, 0), world.getDimension("overworld"), 0, 0)
         baseEntity.kill()
         return;
     }
 
     baseCooldown = new Date().getTime()
-    world.getDimension("overworld").spawnEntity("cosmos:base_bounds", location)
+    world.getDimension("overworld").spawnEntity("cosmos:base_bounds", bl)
 })
 
 world.events.blockPlace.subscribe(e => {
@@ -89,7 +91,6 @@ world.events.blockBreak.subscribe(e => {
     if (baseEntity != undefined) {
         baseEntity.teleport(new Location(0, 320, 0), world.getDimension("overworld"), 0, 0)
         baseEntity.kill()
-        return;
     }
 
     Data.SetKey("baseBlocks", JSON.stringify(baseBlocks))

@@ -28,6 +28,11 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
     const location = player.location
     const planet: Planet = await ShowPlanetSelector(player)
 
+    if (planet == null) {
+        player.runCommand("ride @s stop_riding")
+        return;
+    }
+
     // If the player is currently on earth save the location
     // So that it can be used when landing a rocket
     if (playerData[index].planet === "Earth") {
@@ -56,7 +61,6 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(async (e) => {
     var lastTimestamp = new Date().getTime()
     var frameIndex = 0;
     var playing = true;
-
 
     while (playing) {
         var timeSinceLastFrame = (new Date().getTime() - lastTimestamp) / 1000;
@@ -160,6 +164,8 @@ async function ShowPlanetSelector(player: Player) {
     const form = new ActionFormData()
         .title("Planet Select")
 
+    form.button("Cancel")
+
     planets.forEach(planet => {
         if (planet.name === currentPlanet) return;
 
@@ -171,7 +177,9 @@ async function ShowPlanetSelector(player: Player) {
     if (res.isCanceled || (res.isCanceled === undefined && res.selection === undefined))
         return await ShowPlanetSelector(player);
 
-    return avaliablePlanets[res.selection]
+    if (res.selection == 0) return null
+
+    return avaliablePlanets[res.selection - 1]
 }
 
 world.events.beforeItemUseOn.subscribe((e) => {
